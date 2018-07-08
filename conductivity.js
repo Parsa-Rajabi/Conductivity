@@ -1,8 +1,8 @@
 /**
  * BCLearningNetwork.com
- * Game Name   
+ * Conductivity - Chemistry 12   
  * @author Parsa Rajabi - ParsaRajabiPR@gmail.com
- * Date
+ * July 2018
  */
 
 //// VARIABLES ////
