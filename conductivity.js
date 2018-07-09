@@ -12,6 +12,12 @@ var FPS = 20;
 var STAGE_WIDTH, STAGE_HEIGHT;
 var gameStarted = false;
 
+var solutionOptionValues = [];
+solutionOptionValues['HCl'];
+solutionOptionValues['NaOH'];
+solutionOptionValues['Equimolar mixture of HCl and NaOH'];
+solutionOptionValues['Tap H2O'];
+solutionOptionValues['Pure H2O'];
 
 // Chrome 1+
 var isChrome = !!window.chrome && !!window.chrome.webstore;
@@ -57,6 +63,27 @@ function endGame() {
  * Place graphics and add them to the stage.
  */
 function initGraphics() {
+    
+    
+    //Box Selection
+    var solutionSelectHTML = document.createElement('select');
+    solutionSelectHTML.id = "solutionSelect";
+    solutionSelectHTML.class = "overlayed";
+    var solutionOption = ["HCl", "NaOH", "Equimolar Mixture of HCl and NaOH", "Tap H2O", "Pure H2O"];
+    addOptionsToSelect(solutionSelectHTML, solutionOption);
+    solutionSelectHTML.style.position = "absolute";
+    solutionSelectHTML.style.top = 0;
+    solutionSelectHTML.style.left = 0;
+    solutionSelectHTML.style.width = "122px";
+    solutionSelectHTML.onchange = updateSolution;
+    document.body.appendChild(solutionSelectHTML);
+    solutionSelect = new createjs.DOMElement(solutionSelectHTML);
+
+    //adds the solution selection to the screen
+    stage.addChild(solutionSelect);
+    
+    updateSelectPositions();
+
 
     initMuteUnMuteButtons();
     initListeners();
@@ -66,6 +93,31 @@ function initGraphics() {
     stage.update();
 }
 
+
+function updateSolution(){
+    
+}
+
+
+//Adds the options to the drop down lists
+
+function addOptionsToSelect(select, options) {
+    for (var i = 0; i < options.length; i++) {
+        var option = document.createElement('option');
+        option.value = options[i];
+        option.text = options[i];
+        select.appendChild(option);
+    }
+}
+
+//updates the positions
+function updateSelectPositions() {
+    if (isChrome) {
+        selectY = 85;
+    }
+    solutionSelect.x = gameCanvas.getBoundingClientRect().left + 125;
+    solutionSelect.y = gameCanvas.getBoundingClientRect().top + 100;
+}
 
 /*
  * Adds the mute and unmute buttons to the stage and defines listeners
