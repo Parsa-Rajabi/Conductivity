@@ -100,12 +100,16 @@ function initListeners() {
 
 // bitmap variables
 var muteButton, unmuteButton;
+var background;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
        {
+            src: "images/chemBackground.png",
+            id: "background"
+    },{
             src: "images/mute.png",
             id: "mute"
     },
@@ -133,7 +137,9 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "mute") {
+    if (event.item.id == "background") {
+        background = new createjs.Bitmap(event.result);
+    }else if (event.item.id == "mute") {
         muteButton = new createjs.Bitmap(event.result);
     } else if (event.item.id == "unmute") {
         unmuteButton = new createjs.Bitmap(event.result);
