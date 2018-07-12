@@ -63,8 +63,8 @@ function endGame() {
  * Place graphics and add them to the stage.
  */
 function initGraphics() {
-    
-    
+
+
     //Box Selection
     var solutionSelectHTML = document.createElement('select');
     solutionSelectHTML.id = "solutionSelect";
@@ -81,21 +81,25 @@ function initGraphics() {
 
     //adds the solution selection to the screen
     stage.addChild(solutionSelect);
-    
+
     updateSelectPositions();
 
-
+    playButton.x = playButtonPressed.x = 320;
+    playButton.y = playButtonPressed.y = 55;
+    
     initMuteUnMuteButtons();
     initListeners();
-
+    
+    stage.addChild(playButton);
+//    stage.addChild(playButtonPressed);
     // start the game
     gameStarted = true;
     stage.update();
 }
 
 
-function updateSolution(){
-    
+function updateSolution() {
+
 }
 
 
@@ -115,7 +119,7 @@ function updateSelectPositions() {
     if (isChrome) {
         selectY = 85;
     }
-    solutionSelect.x = gameCanvas.getBoundingClientRect().left + 125;
+    solutionSelect.x = gameCanvas.getBoundingClientRect().left + 180;
     solutionSelect.y = gameCanvas.getBoundingClientRect().top + 100;
 }
 
@@ -144,8 +148,22 @@ function initMuteUnMuteButtons() {
  */
 function initListeners() {
 
+    playButton.on("mouseover", function () {
+        stage.addChild(playButtonPressed);
+        stage.removeChild(playButton);
+        playSound("click");
+    });
+    playButtonPressed.on("mouseout", function () {
+        stage.addChild(playButton);
+        stage.removeChild(playButtonPressed);
+    });
+    //once pressed, the fire function will be called 
+    playButtonPressed.on("click", play);
 }
 
+function play(){
+    
+}
 
 
 //////////////////////// PRELOADJS FUNCTIONS
@@ -153,15 +171,22 @@ function initListeners() {
 // bitmap variables
 var muteButton, unmuteButton;
 var background;
+var playButton, playButtonPressed;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
-       {
+        {
+            src: "images/play.png",
+            id: "playButton"
+    }, {
+            src: "images/playPressed.png",
+            id: "playButtonPressed"
+    }, {
             src: "images/chemBackground.png",
             id: "background"
-    },{
+    }, {
             src: "images/mute.png",
             id: "mute"
     },
@@ -189,13 +214,17 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "background") {
+    if (event.item.id == "playButtonPressed") {
+        playButtonPressed = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "playButton") {
+        playButton = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "background") {
         background = new createjs.Bitmap(event.result);
-    }else if (event.item.id == "mute") {
+    } else if (event.item.id == "mute") {
         muteButton = new createjs.Bitmap(event.result);
     } else if (event.item.id == "unmute") {
         unmuteButton = new createjs.Bitmap(event.result);
-    } 
+    }
 }
 
 function loadError(evt) {
