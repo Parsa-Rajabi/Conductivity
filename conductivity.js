@@ -12,12 +12,17 @@ var FPS = 20;
 var STAGE_WIDTH, STAGE_HEIGHT;
 var gameStarted = false;
 
+var solutionLabel;
+var solutionName = 'HCl';
+
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
 solutionOptionValues['NaOH'];
 solutionOptionValues['Equimolar mixture of HCl and NaOH'];
 solutionOptionValues['Tap H2O'];
 solutionOptionValues['Pure H2O'];
+
+var solutionOption, solutionSelectHTML;
 
 // Chrome 1+
 var isChrome = !!window.chrome && !!window.chrome.webstore;
@@ -45,8 +50,14 @@ function init() {
 
 
 function update(event) {
-    if (gameStarted) {}
-
+    if (gameStarted) {
+    //Solution lable
+    stage.removeChild(solutionLabel);  
+    solutionLabel = new createjs.Text(solutionName, "13.5px Lato", "ff7700");
+    solutionLabel.x = 570;
+    solutionLabel.y = 495;
+    stage.addChild(solutionLabel);
+    }
     stage.update(event);
 }
 
@@ -64,12 +75,12 @@ function endGame() {
  */
 function initGraphics() {
 
-
+    /////// selection start //////////
     //Box Selection
-    var solutionSelectHTML = document.createElement('select');
+    solutionSelectHTML = document.createElement('select');
     solutionSelectHTML.id = "solutionSelect";
     solutionSelectHTML.class = "overlayed";
-    var solutionOption = ["HCl", "NaOH", "Equimolar Mixture of HCl and NaOH", "Tap H2O", "Pure H2O"];
+    solutionOption = ["HCl", "NaOH", "Equimolar Mixture of HCl and NaOH", "Tap H2O", "Pure H2O"];
     addOptionsToSelect(solutionSelectHTML, solutionOption);
     solutionSelectHTML.style.position = "absolute";
     solutionSelectHTML.style.top = 0;
@@ -83,15 +94,20 @@ function initGraphics() {
     stage.addChild(solutionSelect);
 
     updateSelectPositions();
+    /////// selection over //////////
 
+
+
+    //play button x/y
     playButton.x = playButtonPressed.x = 320;
     playButton.y = playButtonPressed.y = 55;
-    
+    stage.addChild(playButton);
+
+
+    //add other stuff
     initMuteUnMuteButtons();
     initListeners();
-    
-    stage.addChild(playButton);
-//    stage.addChild(playButtonPressed);
+
     // start the game
     gameStarted = true;
     stage.update();
@@ -99,7 +115,30 @@ function initGraphics() {
 
 
 function updateSolution() {
+    console.log("Solution was updated!");
+    if (solutionSelect.htmlElement.value == "HCl") {
+        solutionName = 'HCl';
+        
 
+    } else if (solutionSelect.htmlElement.value == "NaOH") {
+        solutionName = 'NaOH';
+
+
+    } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
+        solutionName = 'HCl & NaOH';
+
+
+
+    } else if (solutionSelect.htmlElement.value == "Tap H2O") {
+        solutionName = 'Tap H2O';
+
+
+
+    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+        solutionName = 'Pure H2O';
+
+
+    }
 }
 
 
@@ -161,8 +200,10 @@ function initListeners() {
     playButtonPressed.on("click", play);
 }
 
-function play(){
-    
+function play() {
+    console.log("Button Pressed!");
+    console.log(solutionOption);
+    console.log(solutionOption[1]);
 }
 
 
