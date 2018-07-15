@@ -14,7 +14,15 @@ var gameStarted = false;
 
 var solutionLabel;
 var solutionName = 'HCl';
-var result;
+var result_HC, inner_HC;
+var result_NAOH, inner_NAOH;
+var result_Mix, inner_Mix;
+var result_TapReg, inner_TapReg;
+var result_TapSen, inner_TapSen;
+
+var result_PureReg, inner_PureReg;
+var result_PureSen, result_PureSen;
+var resultX, resultY;
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -54,8 +62,9 @@ function update(event) {
     if (gameStarted) {
     //Solution lable
     stage.removeChild(solutionLabel);  
-    solutionLabel = new createjs.Text(solutionName, "13.5px Lato", "ff7700");
-    solutionLabel.x = 570;
+    solutionLabel = new createjs.Text(solutionName, "13px DejaVu Sans", "#e00b24");
+//    solutionLabel.outline = 1.2;
+    solutionLabel.x = 565;
     solutionLabel.y = 495;
     stage.addChild(solutionLabel);
         
@@ -90,7 +99,7 @@ function initGraphics() {
     solutionSelectHTML.style.position = "absolute";
     solutionSelectHTML.style.top = 0;
     solutionSelectHTML.style.left = 0;
-    solutionSelectHTML.style.width = "122px";
+    solutionSelectHTML.style.width = "120px";
     solutionSelectHTML.onchange = updateSolution;
     document.body.appendChild(solutionSelectHTML);
     solutionSelect = new createjs.DOMElement(solutionSelectHTML);
@@ -106,7 +115,57 @@ function initGraphics() {
     playButton.y = playButtonPressed.y = 55;
     stage.addChild(playButton);
 
+    
+    //results 
+    resultX = 272.5;
+    resultY = 227;
+    
+    result_HC = new createjs.Text("Lamp Burns Brightly", "18px DejaVu Sans", "#EED98D");
+    result_HC.outline = 7;
+    //clone the text for outline
+    inner_HC = result_HC.clone();
+    inner_HC.outline = false;  
+    inner_HC.color = "#FB6542";
+    
+    //HCl Position
+    result_HC.x = inner_HC.x = resultX;
+    result_HC.y = inner_HC.y = resultY;
 
+    stage.addChild(result_HC, inner_HC);
+
+    //visibility off all text wil be false
+//    result_HC.visible = false;
+//    inner_HC.visible = false;
+
+    result_NAOH = result_HC.clone();
+    inner_NAOH = inner_HC.clone();
+    
+    result_NAOH.x = inner_NAOH.x = resultX;
+    result_NAOH.y = inner_NAOH.y = resultY + 48;
+    
+    stage.addChild(result_NAOH, inner_NAOH);
+    
+    
+    result_Mix = result_HC.clone();
+    inner_Mix = inner_HC.clone();
+    
+    result_Mix.x = inner_Mix.x = resultX;
+    result_Mix.y = inner_Mix.y = resultY + 109;
+    
+    stage.addChild(result_Mix, inner_Mix);
+
+    
+    result_PureReg = new createjs.Text("Lamp Doesn't Glow", "16px DejaVu Sans", "#EED98D");
+    result_PureReg.outline = 5;
+    //clone the text for outline
+    inner_PureReg = result_PureReg.clone();
+    inner_PureReg.outline = false;  
+    inner_PureReg.color = "#FB6542";
+    
+    result_PureReg.x =  inner_PureReg.x = resultX - 100;
+    result_PureReg.y = inner_PureReg.y = resultY + 248;
+    
+    stage.addChild(result_PureReg, inner_PureReg);
     //add other stuff
     initMuteUnMuteButtons();
     initListeners();
@@ -121,7 +180,7 @@ function updateSolution() {
     console.log("Solution was updated!");
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
-        
+
 
     } else if (solutionSelect.htmlElement.value == "NaOH") {
         solutionName = 'NaOH';
@@ -203,19 +262,34 @@ function initListeners() {
     playButtonPressed.on("click", play);
 }
 
+
+
 function play() {
     console.log("Button Pressed!");
+    playSound("click");
+     if (solutionSelect.htmlElement.value == "HCl") {
+        result_HC.visible = true;
+        inner_HC.visible = true;
 
-    result = new createjs.Text("Lamp Burns Brightly", "19px DejaVu Sans", "#EED98D");
-    result.outline = 7;
-    
-    var inner = result.clone();
-    inner.outline = false;  
-    inner.color = "#FB6542";
-    
-    result.x = inner.x = 272.5;
-    result.y = inner.y = 227;
-    stage.addChild(result, inner);
+    } else if (solutionSelect.htmlElement.value == "NaOH") {
+        result_NAOH.visible = true;
+        inner_NAOH.visible = true;
+
+    } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
+        result_Mix.visible = true;
+        inner_Mix.visible = true;
+
+    } else if (solutionSelect.htmlElement.value == "Tap H2O") {
+//        result_Tap.visible = true;
+//        inner_Tap.visible = true;
+
+
+    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+//        result_Pure.visible = true;
+//        inner_Pure.visible = true;
+
+    }
+
 }
 
 
@@ -231,6 +305,9 @@ var playButton, playButtonPressed;
 function setupManifest() {
     manifest = [
         {
+            src: "sounds/click.mp3",
+            id: "click"
+    },{
             src: "images/play.png",
             id: "playButton"
     }, {
