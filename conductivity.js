@@ -206,10 +206,16 @@ function initListeners() {
 function play() {
     console.log("Button Pressed!");
 
-    result = new createjs.Text("Lamp burns brightly", "15px Lato", "ff7700");
-    result.x = 195;
-    result.y = 230;
-    stage.addChild(result);
+    result = new createjs.Text("Lamp Burns Brightly", "19px DejaVu Sans", "#EED98D");
+    result.outline = 7;
+    
+    var inner = result.clone();
+    inner.outline = false;  
+    inner.color = "#FB6542";
+    
+    result.x = inner.x = 272.5;
+    result.y = inner.y = 227;
+    stage.addChild(result, inner);
 }
 
 
