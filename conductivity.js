@@ -14,6 +14,7 @@ var gameStarted = false;
 
 var solutionLabel;
 var solutionName = 'HCl';
+var result;
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -57,6 +58,10 @@ function update(event) {
     solutionLabel.x = 570;
     solutionLabel.y = 495;
     stage.addChild(solutionLabel);
+        
+        
+    
+        
     }
     stage.update(event);
 }
@@ -95,8 +100,6 @@ function initGraphics() {
 
     updateSelectPositions();
     /////// selection over //////////
-
-
 
     //play button x/y
     playButton.x = playButtonPressed.x = 320;
@@ -202,8 +205,11 @@ function initListeners() {
 
 function play() {
     console.log("Button Pressed!");
-    console.log(solutionOption);
-    console.log(solutionOption[1]);
+
+    result = new createjs.Text("Lamp burns brightly", "15px Lato", "ff7700");
+    result.x = 195;
+    result.y = 230;
+    stage.addChild(result);
 }
 
 
