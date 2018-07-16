@@ -430,11 +430,15 @@ function initListeners() {
 function senTest() {
     playSound("click");
     if (solutionSelect.htmlElement.value == "Tap H2O") {
+        question_TapSen.visible = false;
+        innerQ_TapSen.visible = false; 
         result_TapSen.visible = true;
         inner_TapSen.visible = true;
 
 
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+         question_PureSen.visible = false;
+        innerQ_PureSen.visible = false;
         result_PureSen.visible = true;
         inner_PureSen.visible = true;
 
@@ -447,23 +451,33 @@ function play() {
     console.log("Button Pressed!");
     playSound("click");
     if (solutionSelect.htmlElement.value == "HCl") {
+        question_HC.visible = false;
+        innerQ_HC.visible = false;
         result_HC.visible = true;
         inner_HC.visible = true;
 
     } else if (solutionSelect.htmlElement.value == "NaOH") {
+        question_NAOH.visible = false;
+        innerQ_NAOH.visible = false;
         result_NAOH.visible = true;
         inner_NAOH.visible = true;
 
     } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
+        question_Mix.visible = false;
+        innerQ_Mix.visible = false;
         result_Mix.visible = true;
         inner_Mix.visible = true;
 
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
+        question_TapReg.visible = false;
+        innerQ_TapReg.visible = false;
         result_TapReg.visible = true;
         inner_TapReg.visible = true;
 
 
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+        question_PureReg.visible = false;
+        innerQ_PureReg.visible = false;
         result_PureReg.visible = true;
         inner_PureReg.visible = true;
 
