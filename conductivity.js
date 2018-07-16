@@ -68,7 +68,10 @@ function update(event) {
     solutionLabel.y = 495;
     stage.addChild(solutionLabel);
         
-        
+
+    if(solutionSelect.htmlElement.value == "Tap H2O" || solutionSelect.htmlElement.value == "Pure H2O"){
+    senButton.visible = true;
+    }
     
         
     }
@@ -115,11 +118,17 @@ function initGraphics() {
     playButton.y = playButtonPressed.y = 55;
     stage.addChild(playButton);
 
+    //sen button x/y
+    senButton.x = senButtonPressed.x = 460;
+    senButton.y = senButtonPressed.y = 55;
+    stage.addChild(senButton);
+    senButton.visible = false;
     
-    //results 
+    //results x/y
     resultX = 272.5;
     resultY = 227;
     
+    //////////////// HCl ////////////////
     result_HC = new createjs.Text("Lamp Burns Brightly", "18px DejaVu Sans", "#EED98D");
     result_HC.outline = 7;
     //clone the text for outline
@@ -134,9 +143,10 @@ function initGraphics() {
     stage.addChild(result_HC, inner_HC);
 
     //visibility off all text wil be false
-//    result_HC.visible = false;
-//    inner_HC.visible = false;
-
+    result_HC.visible = false;
+    inner_HC.visible = false;
+    
+    //////////////// NaOH ////////////////
     result_NAOH = result_HC.clone();
     inner_NAOH = inner_HC.clone();
     
@@ -145,7 +155,7 @@ function initGraphics() {
     
     stage.addChild(result_NAOH, inner_NAOH);
     
-    
+    //////////////// Mix ////////////////
     result_Mix = result_HC.clone();
     inner_Mix = inner_HC.clone();
     
@@ -154,7 +164,42 @@ function initGraphics() {
     
     stage.addChild(result_Mix, inner_Mix);
 
+    ////////////////Tap H2O Regular////////////////
+    result_TapReg = new createjs.Text("Lamp Glows Dimly", "16px DejaVu Sans", "#EED98D");
+    result_TapReg.outline = 5;
+    //clone the text for outline
+    inner_TapReg = result_TapReg.clone();
+    inner_TapReg.outline = false;  
+    inner_TapReg.color = "#FB6542";
     
+    result_TapReg.x =  inner_TapReg.x = resultX - 125;
+    result_TapReg.y = inner_TapReg.y = resultY + 237;
+    
+    stage.addChild(result_TapReg, inner_TapReg);
+    //visibility off all text wil be false
+    result_TapReg.visible = false;
+    inner_TapReg.visible = false;
+    
+    
+    
+    ////////////////Tap H2O SENSITIVE////////////////
+    result_TapSen = new createjs.Text("Lamp Glows Bright", "16px DejaVu Sans", "#EED98D");
+    result_TapSen.outline = 5;
+    //clone the text for outline
+    inner_TapSen = result_TapSen.clone();
+    inner_TapSen.outline = false;  
+    inner_TapSen.color = "#FB6542";
+    
+    result_TapSen.x =  inner_TapSen.x = resultX + 50 ;
+    result_TapSen.y = inner_TapSen.y = resultY + 237;
+    
+    stage.addChild(result_TapSen, inner_TapSen);
+    //visibility off all text wil be false
+    result_TapSen.visible = false;
+    inner_TapSen.visible = false;
+    
+    
+    ////////////////Pure H2O Regular////////////////
     result_PureReg = new createjs.Text("Lamp Doesn't Glow", "16px DejaVu Sans", "#EED98D");
     result_PureReg.outline = 5;
     //clone the text for outline
@@ -162,10 +207,32 @@ function initGraphics() {
     inner_PureReg.outline = false;  
     inner_PureReg.color = "#FB6542";
     
-    result_PureReg.x =  inner_PureReg.x = resultX - 100;
-    result_PureReg.y = inner_PureReg.y = resultY + 248;
+    result_PureReg.x =  inner_PureReg.x = resultX - 125;
+    result_PureReg.y = inner_PureReg.y = resultY + 279;
     
     stage.addChild(result_PureReg, inner_PureReg);
+    //visibility off all text wil be false
+    result_PureReg.visible = false;
+    inner_PureReg.visible = false;
+    
+    ////////////////Pure H2O SENSITIVE////////////////
+    result_PureSen = new createjs.Text("Lamp Glows Dimly", "16px DejaVu Sans", "#EED98D");
+    result_PureSen.outline = 5;
+    //clone the text for outline
+    inner_PureSen = result_PureSen.clone();
+    inner_PureSen.outline = false;  
+    inner_PureSen.color = "#FB6542";
+    
+    result_PureSen.x =  inner_PureSen.x = resultX + 70;
+    result_PureSen.y = inner_PureSen.y = resultY + 279;
+    
+    stage.addChild(result_PureSen, inner_PureSen);
+    //visibility off all text wil be false
+    result_PureSen.visible = false;
+    inner_PureSen.visible = false;
+    
+    
+    
     //add other stuff
     initMuteUnMuteButtons();
     initListeners();
@@ -180,26 +247,18 @@ function updateSolution() {
     console.log("Solution was updated!");
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
-
-
+        
     } else if (solutionSelect.htmlElement.value == "NaOH") {
         solutionName = 'NaOH';
-
-
+        
     } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
         solutionName = 'HCl & NaOH';
-
-
 
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
         solutionName = 'Tap H2O';
 
-
-
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
         solutionName = 'Pure H2O';
-
-
     }
 }
 
@@ -249,10 +308,11 @@ function initMuteUnMuteButtons() {
  */
 function initListeners() {
 
+    //////////////PLAY BUTTON///////////////
     playButton.on("mouseover", function () {
         stage.addChild(playButtonPressed);
         stage.removeChild(playButton);
-        playSound("click");
+//        playSound("click");
     });
     playButtonPressed.on("mouseout", function () {
         stage.addChild(playButton);
@@ -260,6 +320,38 @@ function initListeners() {
     });
     //once pressed, the fire function will be called 
     playButtonPressed.on("click", play);
+    
+    
+    
+    ////////////SEN BUTTON////////////////
+    senButton.on("mouseover", function () {
+        stage.addChild(senButtonPressed);
+        stage.removeChild(senButton);
+//        playSound("click");
+    });
+    senButtonPressed.on("mouseout", function () {
+        stage.addChild(senButton);
+        stage.removeChild(senButtonPressed);
+    });
+    //once pressed, the fire function will be called 
+    senButtonPressed.on("click", senTest);
+    
+    
+}
+
+
+function senTest(){
+        playSound("click");
+    if (solutionSelect.htmlElement.value == "Tap H2O") {
+        result_TapSen.visible = true;
+        inner_TapSen.visible = true;
+
+
+    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+        result_PureSen.visible = true;
+        inner_PureSen.visible = true;
+
+    }
 }
 
 
@@ -280,13 +372,13 @@ function play() {
         inner_Mix.visible = true;
 
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
-//        result_Tap.visible = true;
-//        inner_Tap.visible = true;
+        result_TapReg.visible = true;
+        inner_TapReg.visible = true;
 
 
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
-//        result_Pure.visible = true;
-//        inner_Pure.visible = true;
+        result_PureReg.visible = true;
+        inner_PureReg.visible = true;
 
     }
 
@@ -299,12 +391,19 @@ function play() {
 var muteButton, unmuteButton;
 var background;
 var playButton, playButtonPressed;
+var senButton, senButtonPressed;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
-        {
+       {
+            src: "images/senTest.png",
+            id: "senButton"
+    },{
+            src: "images/senTestPressed.png",
+            id: "senButtonPressed"
+    },{
             src: "sounds/click.mp3",
             id: "click"
     },{
@@ -319,8 +418,7 @@ function setupManifest() {
     }, {
             src: "images/mute.png",
             id: "mute"
-    },
-        {
+    },{
             src: "images/unmute.png",
             id: "unmute"
     }
@@ -344,7 +442,11 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "playButtonPressed") {
+   if (event.item.id == "senButtonPressed") {
+        senButtonPressed = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "senButton") {
+        senButton = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "playButtonPressed") {
         playButtonPressed = new createjs.Bitmap(event.result);
     } else if (event.item.id == "playButton") {
         playButton = new createjs.Bitmap(event.result);
