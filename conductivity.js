@@ -22,7 +22,17 @@ var result_TapSen, inner_TapSen;
 
 var result_PureReg, inner_PureReg;
 var result_PureSen, result_PureSen;
+
 var resultX, resultY;
+
+var question_HC, innerQ_HC;
+var question_NAOH, innerQ_NAOH;
+var question_Mix, innerQ_Mix;
+var question_TapReg, innerQ_TapReg;
+var question_TapSen, innerQ_TapSen;
+
+var question_PureReg, innerQ_PureReg;
+var question_PureSen, innerQ_PureSen;
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -60,20 +70,22 @@ function init() {
 
 function update(event) {
     if (gameStarted) {
-    //Solution lable
-    stage.removeChild(solutionLabel);  
-    solutionLabel = new createjs.Text(solutionName, "13px DejaVu Sans", "#e00b24");
-//    solutionLabel.outline = 1.2;
-    solutionLabel.x = 565;
-    solutionLabel.y = 495;
-    stage.addChild(solutionLabel);
-        
+        //Solution lable
+        stage.removeChild(solutionLabel);
+        solutionLabel = new createjs.Text(solutionName, "13px DejaVu Sans", "#e00b24");
+        //    solutionLabel.outline = 1.2;
+        solutionLabel.x = 565;
+        solutionLabel.y = 495;
+        stage.addChild(solutionLabel);
 
-    if(solutionSelect.htmlElement.value == "Tap H2O" || solutionSelect.htmlElement.value == "Pure H2O"){
-    senButton.visible = true;
-    }
-    
-        
+
+        if (solutionSelect.htmlElement.value == "Tap H2O" || solutionSelect.htmlElement.value == "Pure H2O") {
+            senButton.visible = true;
+        } else
+            senButton.visible = false;
+
+
+
     }
     stage.update(event);
 }
@@ -123,19 +135,94 @@ function initGraphics() {
     senButton.y = senButtonPressed.y = 55;
     stage.addChild(senButton);
     senButton.visible = false;
-    
+
     //results x/y
     resultX = 272.5;
     resultY = 227;
+
+    //////////////// HCl Question Place Holder ////////////////
+    question_HC = new createjs.Text("             ???", "18px DejaVu Sans", "#EED98D");
+    question_HC.outline = 7;
+    //clone the text for outline
+    innerQ_HC = question_HC.clone();
+    innerQ_HC.outline = false;
+    innerQ_HC.color = "#FB6542";
+    
+    //position
+    question_HC.x = innerQ_HC.x = resultX;
+    question_HC.y = innerQ_HC.y = resultY;
+
+    stage.addChild(question_HC, innerQ_HC);
+    
+    
+    //////////////// NAOH Question Place Holder ////////////////
+    question_NAOH = question_HC.clone();
+    innerQ_NAOH = innerQ_HC.clone();
+
+    question_NAOH.x = innerQ_NAOH.x = resultX;
+    question_NAOH.y = innerQ_NAOH.y = resultY + 48;
+
+    stage.addChild(question_NAOH, innerQ_NAOH);
+
+    //////////////// Mix Question Place Holder ////////////////
+    question_Mix = question_HC.clone();
+    innerQ_Mix = innerQ_HC.clone();
+
+    question_Mix.x = innerQ_Mix.x = resultX;
+    question_Mix.y = innerQ_Mix.y = resultY + 109;
+
+    stage.addChild(question_Mix, innerQ_Mix);
+    
+    
+    //////////////// Tap Regular Question Place Holder ////////////////
+    question_TapReg = question_HC.clone();
+    innerQ_TapReg = innerQ_HC.clone();
+
+    question_TapReg.x = innerQ_TapReg.x = resultX - 125;
+    question_TapReg.y = innerQ_TapReg.y = resultY + 237;
+    
+    stage.addChild(question_TapReg, innerQ_TapReg);
+    
+    
+    //////////////// Tap Senstive Question Place Holder ////////////////
+    question_TapSen = question_HC.clone();
+    innerQ_TapSen = innerQ_HC.clone();
+    
+    question_TapSen.x = innerQ_TapSen.x = resultX + 70;
+    question_TapSen.y = innerQ_TapSen.y = resultY + 237;
+
+    stage.addChild(question_TapSen, innerQ_TapSen);
+    
+
+    
+     //////////////// Pure Regular Question Place Holder ////////////////
+    question_PureReg = question_HC.clone();
+    innerQ_PureReg = innerQ_HC.clone();
+
+    question_PureReg.x = innerQ_PureReg.x = resultX - 125;
+    question_PureReg.y = innerQ_PureReg.y = resultY + 279;
+    
+    stage.addChild(question_PureReg, innerQ_PureReg);
+    
+    
+    //////////////// Pure Senstive Question Place Holder ////////////////
+    question_PureSen = question_HC.clone();
+    innerQ_PureSen = innerQ_HC.clone();
+    
+    question_PureSen.x = innerQ_PureSen.x = resultX + 70;
+    question_PureSen.y = innerQ_PureSen.y = resultY + 279;
+
+    stage.addChild(question_PureSen, innerQ_PureSen);
+    
     
     //////////////// HCl ////////////////
     result_HC = new createjs.Text("Lamp Burns Brightly", "18px DejaVu Sans", "#EED98D");
     result_HC.outline = 7;
     //clone the text for outline
     inner_HC = result_HC.clone();
-    inner_HC.outline = false;  
+    inner_HC.outline = false;
     inner_HC.color = "#FB6542";
-    
+
     //HCl Position
     result_HC.x = inner_HC.x = resultX;
     result_HC.y = inner_HC.y = resultY;
@@ -145,23 +232,23 @@ function initGraphics() {
     //visibility off all text wil be false
     result_HC.visible = false;
     inner_HC.visible = false;
-    
+
     //////////////// NaOH ////////////////
     result_NAOH = result_HC.clone();
     inner_NAOH = inner_HC.clone();
-    
+
     result_NAOH.x = inner_NAOH.x = resultX;
     result_NAOH.y = inner_NAOH.y = resultY + 48;
-    
+
     stage.addChild(result_NAOH, inner_NAOH);
-    
+
     //////////////// Mix ////////////////
     result_Mix = result_HC.clone();
     inner_Mix = inner_HC.clone();
-    
+
     result_Mix.x = inner_Mix.x = resultX;
     result_Mix.y = inner_Mix.y = resultY + 109;
-    
+
     stage.addChild(result_Mix, inner_Mix);
 
     ////////////////Tap H2O Regular////////////////
@@ -169,70 +256,70 @@ function initGraphics() {
     result_TapReg.outline = 5;
     //clone the text for outline
     inner_TapReg = result_TapReg.clone();
-    inner_TapReg.outline = false;  
+    inner_TapReg.outline = false;
     inner_TapReg.color = "#FB6542";
-    
-    result_TapReg.x =  inner_TapReg.x = resultX - 125;
+
+    result_TapReg.x = inner_TapReg.x = resultX - 125;
     result_TapReg.y = inner_TapReg.y = resultY + 237;
-    
+
     stage.addChild(result_TapReg, inner_TapReg);
     //visibility off all text wil be false
     result_TapReg.visible = false;
     inner_TapReg.visible = false;
-    
-    
-    
+
+
+
     ////////////////Tap H2O SENSITIVE////////////////
     result_TapSen = new createjs.Text("Lamp Glows Bright", "16px DejaVu Sans", "#EED98D");
     result_TapSen.outline = 5;
     //clone the text for outline
     inner_TapSen = result_TapSen.clone();
-    inner_TapSen.outline = false;  
+    inner_TapSen.outline = false;
     inner_TapSen.color = "#FB6542";
-    
-    result_TapSen.x =  inner_TapSen.x = resultX + 50 ;
+
+    result_TapSen.x = inner_TapSen.x = resultX + 70;
     result_TapSen.y = inner_TapSen.y = resultY + 237;
-    
+
     stage.addChild(result_TapSen, inner_TapSen);
     //visibility off all text wil be false
     result_TapSen.visible = false;
     inner_TapSen.visible = false;
-    
-    
+
+
     ////////////////Pure H2O Regular////////////////
     result_PureReg = new createjs.Text("Lamp Doesn't Glow", "16px DejaVu Sans", "#EED98D");
     result_PureReg.outline = 5;
     //clone the text for outline
     inner_PureReg = result_PureReg.clone();
-    inner_PureReg.outline = false;  
+    inner_PureReg.outline = false;
     inner_PureReg.color = "#FB6542";
-    
-    result_PureReg.x =  inner_PureReg.x = resultX - 125;
+
+    result_PureReg.x = inner_PureReg.x = resultX - 125;
     result_PureReg.y = inner_PureReg.y = resultY + 279;
-    
+
     stage.addChild(result_PureReg, inner_PureReg);
     //visibility off all text wil be false
     result_PureReg.visible = false;
     inner_PureReg.visible = false;
-    
+
     ////////////////Pure H2O SENSITIVE////////////////
     result_PureSen = new createjs.Text("Lamp Glows Dimly", "16px DejaVu Sans", "#EED98D");
     result_PureSen.outline = 5;
     //clone the text for outline
     inner_PureSen = result_PureSen.clone();
-    inner_PureSen.outline = false;  
+    inner_PureSen.outline = false;
     inner_PureSen.color = "#FB6542";
-    
-    result_PureSen.x =  inner_PureSen.x = resultX + 70;
+
+    result_PureSen.x = inner_PureSen.x = resultX + 70;
     result_PureSen.y = inner_PureSen.y = resultY + 279;
-    
+
     stage.addChild(result_PureSen, inner_PureSen);
     //visibility off all text wil be false
     result_PureSen.visible = false;
     inner_PureSen.visible = false;
-    
-    
-    
+
+
+
     //add other stuff
     initMuteUnMuteButtons();
     initListeners();
@@ -247,10 +334,10 @@ function updateSolution() {
     console.log("Solution was updated!");
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
-        
+
     } else if (solutionSelect.htmlElement.value == "NaOH") {
         solutionName = 'NaOH';
-        
+
     } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
         solutionName = 'HCl & NaOH';
 
@@ -312,7 +399,7 @@ function initListeners() {
     playButton.on("mouseover", function () {
         stage.addChild(playButtonPressed);
         stage.removeChild(playButton);
-//        playSound("click");
+        //        playSound("click");
     });
     playButtonPressed.on("mouseout", function () {
         stage.addChild(playButton);
@@ -320,14 +407,14 @@ function initListeners() {
     });
     //once pressed, the fire function will be called 
     playButtonPressed.on("click", play);
-    
-    
-    
+
+
+
     ////////////SEN BUTTON////////////////
     senButton.on("mouseover", function () {
         stage.addChild(senButtonPressed);
         stage.removeChild(senButton);
-//        playSound("click");
+        //        playSound("click");
     });
     senButtonPressed.on("mouseout", function () {
         stage.addChild(senButton);
@@ -335,13 +422,13 @@ function initListeners() {
     });
     //once pressed, the fire function will be called 
     senButtonPressed.on("click", senTest);
-    
-    
+
+
 }
 
 
-function senTest(){
-        playSound("click");
+function senTest() {
+    playSound("click");
     if (solutionSelect.htmlElement.value == "Tap H2O") {
         result_TapSen.visible = true;
         inner_TapSen.visible = true;
@@ -359,7 +446,7 @@ function senTest(){
 function play() {
     console.log("Button Pressed!");
     playSound("click");
-     if (solutionSelect.htmlElement.value == "HCl") {
+    if (solutionSelect.htmlElement.value == "HCl") {
         result_HC.visible = true;
         inner_HC.visible = true;
 
@@ -397,16 +484,16 @@ var senButton, senButtonPressed;
  */
 function setupManifest() {
     manifest = [
-       {
+        {
             src: "images/senTest.png",
             id: "senButton"
-    },{
+    }, {
             src: "images/senTestPressed.png",
             id: "senButtonPressed"
-    },{
+    }, {
             src: "sounds/click.mp3",
             id: "click"
-    },{
+    }, {
             src: "images/play.png",
             id: "playButton"
     }, {
@@ -418,7 +505,7 @@ function setupManifest() {
     }, {
             src: "images/mute.png",
             id: "mute"
-    },{
+    }, {
             src: "images/unmute.png",
             id: "unmute"
     }
@@ -442,7 +529,7 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-   if (event.item.id == "senButtonPressed") {
+    if (event.item.id == "senButtonPressed") {
         senButtonPressed = new createjs.Bitmap(event.result);
     } else if (event.item.id == "senButton") {
         senButton = new createjs.Bitmap(event.result);
