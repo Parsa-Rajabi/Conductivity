@@ -147,14 +147,14 @@ function initGraphics() {
     innerQ_HC = question_HC.clone();
     innerQ_HC.outline = false;
     innerQ_HC.color = "#FB6542";
-    
+
     //position
     question_HC.x = innerQ_HC.x = resultX;
     question_HC.y = innerQ_HC.y = resultY;
 
     stage.addChild(question_HC, innerQ_HC);
-    
-    
+
+
     //////////////// NAOH Question Place Holder ////////////////
     question_NAOH = question_HC.clone();
     innerQ_NAOH = innerQ_HC.clone();
@@ -172,49 +172,49 @@ function initGraphics() {
     question_Mix.y = innerQ_Mix.y = resultY + 109;
 
     stage.addChild(question_Mix, innerQ_Mix);
-    
-    
+
+
     //////////////// Tap Regular Question Place Holder ////////////////
     question_TapReg = question_HC.clone();
     innerQ_TapReg = innerQ_HC.clone();
 
     question_TapReg.x = innerQ_TapReg.x = resultX - 125;
     question_TapReg.y = innerQ_TapReg.y = resultY + 237;
-    
+
     stage.addChild(question_TapReg, innerQ_TapReg);
-    
-    
+
+
     //////////////// Tap Senstive Question Place Holder ////////////////
     question_TapSen = question_HC.clone();
     innerQ_TapSen = innerQ_HC.clone();
-    
+
     question_TapSen.x = innerQ_TapSen.x = resultX + 70;
     question_TapSen.y = innerQ_TapSen.y = resultY + 237;
 
     stage.addChild(question_TapSen, innerQ_TapSen);
-    
 
-    
-     //////////////// Pure Regular Question Place Holder ////////////////
+
+
+    //////////////// Pure Regular Question Place Holder ////////////////
     question_PureReg = question_HC.clone();
     innerQ_PureReg = innerQ_HC.clone();
 
     question_PureReg.x = innerQ_PureReg.x = resultX - 125;
     question_PureReg.y = innerQ_PureReg.y = resultY + 279;
-    
+
     stage.addChild(question_PureReg, innerQ_PureReg);
-    
-    
+
+
     //////////////// Pure Senstive Question Place Holder ////////////////
     question_PureSen = question_HC.clone();
     innerQ_PureSen = innerQ_HC.clone();
-    
+
     question_PureSen.x = innerQ_PureSen.x = resultX + 70;
     question_PureSen.y = innerQ_PureSen.y = resultY + 279;
 
     stage.addChild(question_PureSen, innerQ_PureSen);
-    
-    
+
+
     //////////////// HCl ////////////////
     result_HC = new createjs.Text("Lamp Burns Brightly", "18px DejaVu Sans", "#EED98D");
     result_HC.outline = 7;
@@ -431,13 +431,13 @@ function senTest() {
     playSound("click");
     if (solutionSelect.htmlElement.value == "Tap H2O") {
         question_TapSen.visible = false;
-        innerQ_TapSen.visible = false; 
+        innerQ_TapSen.visible = false;
         result_TapSen.visible = true;
         inner_TapSen.visible = true;
 
 
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
-         question_PureSen.visible = false;
+        question_PureSen.visible = false;
         innerQ_PureSen.visible = false;
         result_PureSen.visible = true;
         inner_PureSen.visible = true;
@@ -493,12 +493,23 @@ var muteButton, unmuteButton;
 var background;
 var playButton, playButtonPressed;
 var senButton, senButtonPressed;
+var hintButton, hintButtonPressed;
+var summaryPop;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
         {
+            src: "images/hintPressed.png",
+            id: "hintButtonPressed"
+    }, {
+            src: "images/hint.png",
+            id: "hintButton"
+    }, {
+            src: "images/sumSolution.png",
+            id: "summaryPop"
+    }, {
             src: "images/senTest.png",
             id: "senButton"
     }, {
@@ -543,7 +554,13 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "senButtonPressed") {
+    if (event.item.id == "hintButtonPressed") {
+        hintButtonPressed = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "hintButton") {
+        hintButton = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "sumSolution") {
+        summaryPop = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "senButtonPressed") {
         senButtonPressed = new createjs.Bitmap(event.result);
     } else if (event.item.id == "senButton") {
         senButton = new createjs.Bitmap(event.result);
