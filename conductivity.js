@@ -136,31 +136,34 @@ function initGraphics() {
     stage.addChild(senButton);
     senButton.visible = false;
 
-    //hint button x/y
-    hintButton.x = hintButtonPressed.x = 500;
-    hintButton.y = hintButtonPressed.y = 55;
-    stage.addChild(hintButton);
-    
     //on button x/y
-//    onButton.x = onButtonPressed.x = offButton.x = offButtonPressed.x = 300;
+    //    onButton.x = onButtonPressed.x = offButton.x = offButtonPressed.x = 300;
     onButton.x = onButtonPressed.x = 200;
     offButton.x = offButtonPressed.x = 300;
     onButton.y = onButtonPressed.y = 350;
     offButton.y = offButtonPressed.y = 450;
     stage.addChild(onButton);
     stage.addChild(offButton);
-    
+
 
     //battery x/y
     battery.x = 120;
     battery.y = 330;
     stage.addChild(battery);
 
+
+    //hint button x/y
+    hintButton.x = hintButtonPressed.x = 500;
+    hintButton.y = hintButtonPressed.y = 55;
+    stage.addChild(hintButton);
+
     //summary Pop up x/y
     summaryPop.x = -5;
     summaryPop.y = 125;
     stage.addChild(summaryPop);
     summaryPop.visible = false;
+
+
     //    //results x/y
     //    resultX = 272.5;
     //    resultY = 227;
@@ -462,7 +465,7 @@ function initListeners() {
     });
     //once pressed, the fire function will be called 
     hintButtonPressed.on("click", hintPop);
-    
+
     //////////////ON BUTTON///////////////
     onButton.on("mouseover", function () {
         stage.addChild(onButtonPressed);
@@ -476,7 +479,7 @@ function initListeners() {
     //once pressed, the fire function will be called 
     onButtonPressed.on("click", switchIt);
 
-    
+
     //////////////OFF BUTTON///////////////
     offButton.on("mouseover", function () {
         stage.addChild(offButtonPressed);
@@ -493,7 +496,7 @@ function initListeners() {
 
 }
 
-function switchIt(){
+function switchIt() {
     console.log("Switch it!")
 }
 
@@ -578,7 +581,7 @@ var offButton, offButtonPressed;
  */
 function setupManifest() {
     manifest = [
-       {
+        {
             src: "images/off.png",
             id: "offButton"
     }, {
