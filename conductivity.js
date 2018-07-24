@@ -490,9 +490,6 @@ function initListeners() {
 
     //////////////OFF BUTTON///////////////
     offButton.on("mouseover", function () {
-//        stage.addChild(offButtonPressed);
-//        stage.removeChild(offButton);
-        //        playSound("click");
     });
 //    offButtonPressed.on("mouseout", function () {
 //        stage.addChild(offButton);
@@ -506,7 +503,7 @@ function initListeners() {
 
 function switchIt() {
     console.log("Switch it!");
-    
+        playSound("click");
     //onCheck is false as default
     if (!onCheck){
         onButton.visible = false;
@@ -596,12 +593,22 @@ var battery;
 var onButton, onButtonPressed;
 var offButton, offButtonPressed;
 var offBulb, dimBulb, onBulb;
+var senBulb_off, senBulb_dim, senBulb_on;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
         {
+            src: "images/senBulb_on.png",
+            id: "senBulb_on"
+    },{
+            src: "images/senBulb_dim.png",
+            id: "senBulb_dim"
+    },{
+            src: "images/senBulb_off.png",
+            id: "senBulb_off"
+    },{
             src: "images/onBulb.png",
             id: "onBulb"
     },{
@@ -673,7 +680,13 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "onBulb") {
+    if (event.item.id == "senBulb_on") {
+        senBulb_on = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "senBulb_dim") {
+        senBulb_dim = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "senBulb_off") {
+        senBulb_off = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "onBulb") {
         onBulb = new createjs.Bitmap(event.result);
     } else if (event.item.id == "dimBulb") {
         dimBulb = new createjs.Bitmap(event.result);
