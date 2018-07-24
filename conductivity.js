@@ -74,10 +74,10 @@ function update(event) {
     if (gameStarted) {
         //Solution lable
         stage.removeChild(solutionLabel);
-        solutionLabel = new createjs.Text(solutionName, "13px DejaVu Sans", "#e00b24");
+        solutionLabel = new createjs.Text(solutionName, "22px DejaVu Sans", "#0825ff");
         //    solutionLabel.outline = 1.2;
-        solutionLabel.x = 565;
-        solutionLabel.y = 495;
+        solutionLabel.x = 595;
+        solutionLabel.y = 470;
         stage.addChild(solutionLabel);
 
 
@@ -116,7 +116,7 @@ function initGraphics() {
     solutionSelectHTML.style.position = "absolute";
     solutionSelectHTML.style.top = 0;
     solutionSelectHTML.style.left = 0;
-    solutionSelectHTML.style.width = "120px";
+    solutionSelectHTML.style.width = "122px";
     solutionSelectHTML.onchange = updateSolution;
     document.body.appendChild(solutionSelectHTML);
     solutionSelect = new createjs.DOMElement(solutionSelectHTML);
@@ -147,11 +147,8 @@ function initGraphics() {
 
     //on button x/y
     //    onButton.x = onButtonPressed.x = offButton.x = offButtonPressed.x = 300;
-    onButton.x = 200;
-    onButton.y = 350;
-    
-    offButton.x = 200;
-    offButton.y = 350;
+    onButton.x = offButton.x = 300;
+    onButton.y = offButton.y = 350;
     
     stage.addChild(onButton);
     stage.addChild(offButton);
@@ -481,27 +478,28 @@ function initListeners() {
     
     //////////////ON BUTTON///////////////
     onButton.on("mouseover", function () {
+        console.log("mouse is over")
     });
-    onButtonPressed.on("mouseout", function () {
-        stage.addChild(onButton);
-        stage.removeChild(onButtonPressed);
-    });
+//    onButtonPressed.on("mouseout", function () {
+//        stage.addChild(onButton);
+//        stage.removeChild(onButtonPressed);
+//    });
     //once pressed, the fire function will be called 
-    onButtonPressed.on("click", switchIt);
+    onButton.on("click", switchIt);
 
 
     //////////////OFF BUTTON///////////////
     offButton.on("mouseover", function () {
-        stage.addChild(offButtonPressed);
-        stage.removeChild(offButton);
+//        stage.addChild(offButtonPressed);
+//        stage.removeChild(offButton);
         //        playSound("click");
     });
-    offButtonPressed.on("mouseout", function () {
-        stage.addChild(offButton);
-        stage.removeChild(offButtonPressed);
-    });
+//    offButtonPressed.on("mouseout", function () {
+//        stage.addChild(offButton);
+//        stage.removeChild(offButtonPressed);
+//    });
     //once pressed, the fire function will be called 
-    offButtonPressed.on("click", switchIt);
+    offButton.on("click", switchIt);
 
 
 }
@@ -513,6 +511,11 @@ function switchIt() {
     if (!onCheck){
         onButton.visible = false;
         offButton.visible = true;
+        onCheck = true;
+    } else if (onCheck){
+        onButton.visible = true;
+        offButton.visible = false;
+        onCheck = false;
     }
 }
 
