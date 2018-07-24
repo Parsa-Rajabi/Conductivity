@@ -12,7 +12,7 @@ var FPS = 20;
 var STAGE_WIDTH, STAGE_HEIGHT;
 var gameStarted = false;
 
-var solutionLabel;
+var solutionLabel; 
 var solutionName = 'HCl';
 var result_HC, inner_HC;
 var result_NAOH, inner_NAOH;
@@ -33,6 +33,8 @@ var question_TapSen, innerQ_TapSen;
 
 var question_PureReg, innerQ_PureReg;
 var question_PureSen, innerQ_PureSen;
+
+var onCheck = false;
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -124,27 +126,36 @@ function initGraphics() {
 
     updateSelectPositions();
     /////// selection over //////////
-
-    //play button x/y
-    playButton.x = playButtonPressed.x = 320;
-    playButton.y = playButtonPressed.y = 55;
-    stage.addChild(playButton);
-
-    //sen button x/y
-    senButton.x = senButtonPressed.x = 460;
-    senButton.y = senButtonPressed.y = 55;
-    stage.addChild(senButton);
-    senButton.visible = false;
+    
+    
+    
+    //Bulbs x/y
+    offBulb.x = dimBulb.x = onBulb.x = 500;
+    offBulb.y = dimBulb.y = onBulb.y = 70;
+    stage.addChild(offBulb);
+//
+//    //play button x/y
+//    playButton.x = playButtonPressed.x = 320;
+//    playButton.y = playButtonPressed.y = 55;
+//    stage.addChild(playButton);
+//
+//    //sen button x/y
+//    senButton.x = senButtonPressed.x = 460;
+//    senButton.y = senButtonPressed.y = 55;
+//    stage.addChild(senButton);
+//    senButton.visible = false;
 
     //on button x/y
     //    onButton.x = onButtonPressed.x = offButton.x = offButtonPressed.x = 300;
-    onButton.x = onButtonPressed.x = 200;
-    offButton.x = offButtonPressed.x = 300;
-    onButton.y = onButtonPressed.y = 350;
-    offButton.y = offButtonPressed.y = 450;
+    onButton.x = 200;
+    onButton.y = 350;
+    
+    offButton.x = 200;
+    offButton.y = 350;
+    
     stage.addChild(onButton);
     stage.addChild(offButton);
-
+    offButton.visible = false;
 
     //battery x/y
     battery.x = 120;
@@ -466,11 +477,10 @@ function initListeners() {
     //once pressed, the fire function will be called 
     hintButtonPressed.on("click", hintPop);
 
+    
+    
     //////////////ON BUTTON///////////////
     onButton.on("mouseover", function () {
-        stage.addChild(onButtonPressed);
-        stage.removeChild(onButton);
-        //        playSound("click");
     });
     onButtonPressed.on("mouseout", function () {
         stage.addChild(onButton);
@@ -497,7 +507,13 @@ function initListeners() {
 }
 
 function switchIt() {
-    console.log("Switch it!")
+    console.log("Switch it!");
+    
+    //onCheck is false as default
+    if (!onCheck){
+        onButton.visible = false;
+        offButton.visible = true;
+    }
 }
 
 function hintPop() {
@@ -576,23 +592,27 @@ var summaryPop;
 var battery;
 var onButton, onButtonPressed;
 var offButton, offButtonPressed;
+var offBulb, dimBulb, onBulb;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
         {
-            src: "images/off.png",
-            id: "offButton"
+            src: "images/onBulb.png",
+            id: "onBulb"
+    },{
+            src: "images/dimBulb.png",
+            id: "dimBulb"
+    },{
+            src: "images/offBulb.png",
+            id: "offBulb"
     }, {
             src: "images/offPressed.png",
-            id: "offButtonPressed"
-    }, {
-            src: "images/on.png",
-            id: "onButton"
+            id: "offButton"
     }, {
             src: "images/onPressed.png",
-            id: "onButtonPressed"
+            id: "onButton"
     }, {
             src: "images/battery.png",
             id: "battery"
@@ -650,7 +670,13 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "offButton") {
+    if (event.item.id == "onBulb") {
+        onBulb = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "dimBulb") {
+        dimBulb = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "offBulb") {
+        offBulb = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "offButton") {
         offButton = new createjs.Bitmap(event.result);
     } else if (event.item.id == "offButtonPressed") {
         offButtonPressed = new createjs.Bitmap(event.result);
