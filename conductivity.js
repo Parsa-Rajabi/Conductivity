@@ -15,7 +15,9 @@ var gameStarted = false;
 var solutionLabel;
 var solutionName = 'HCl';
 
-var onCheck = false;
+var onCheck = 0; 
+//0 is OFF
+//1 is ON
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -108,7 +110,7 @@ function initGraphics() {
     stage.addChild(offBulb);
     stage.addChild(onBulb);
     stage.addChild(dimBulb);
-    
+
     onBulb.visible = dimBulb.visible = false;
 
     //senBulbs x/y
@@ -116,15 +118,15 @@ function initGraphics() {
     senBulb_off.y = 100;
     stage.addChild(senBulb_off);
     senBulb_off.visible = false;
-    
-    //on button x/y
-    //    onButton.x = onButtonPressed.x = offButton.x = offButtonPressed.x = 300;
-    onButton.x = offButton.x = 300;
-    onButton.y = offButton.y = 350;
 
-    stage.addChild(onButton);
-    stage.addChild(offButton);
-    offButton.visible = false;
+    //on button x/y
+
+    onSwitch.x = onSwitchHover.x = offSwitch.x = offSwitchHover.x = 300;
+    onSwitch.y = offSwitch.y = onSwitchHover.y = offSwitchHover.y = 350;
+    stage.addChild(onSwitch, offSwitch, onSwitchHover, offSwitchHover);
+    offSwitch.visible = false;
+    onSwitchHover.visible = false;
+    offSwitchHover.visible = false;
 
 
     //battery x/y
@@ -236,43 +238,67 @@ function initListeners() {
 
 
 
-    //////////////ON BUTTON///////////////
-    onButton.on("mouseover", function () {
-        console.log("mouse is over")
+    //////////////ON SWITCH///////////////
+    onSwitch.on("mouseover", function () {
+        onSwitchHover.visible = true;
+        onSwitch.visible = false;
+//        stage.addChild(onSwitchHover);
+//        stage.removeChild(onSwitch);
     });
-    //    onButtonPressed.on("mouseout", function () {
-    //        stage.addChild(onButton);
-    //        stage.removeChild(onButtonPressed);
-    //    });
+    onSwitchHover.on("mouseout", function () {
+        onSwitch.visible = true;
+        onSwitchHover.visible = false;
+//        stage.addChild(onSwitch);
+//        stage.removeChild(onSwitchHover);
+    });
     //once pressed, the fire function will be called 
-    onButton.on("click", switchIt);
+    onSwitchHover.on("click", switchIt);
 
 
-    //////////////OFF BUTTON///////////////
-    offButton.on("mouseover", function () {});
-    //    offButtonPressed.on("mouseout", function () {
-    //        stage.addChild(offButton);
-    //        stage.removeChild(offButtonPressed);
-    //    });
+    //////////////OFF SWITCH///////////////
+    offSwitch.on("mouseover", function () { 
+        stage.addChild(offSwitchHover);
+        stage.removeChild(offSwitch);
+    });
+    offSwitchHover.on("mouseout", function () {
+        stage.addChild(offSwitch);
+        stage.removeChild(offSwitchHover);
+    });
     //once pressed, the fire function will be called 
-    offButton.on("click", switchIt);
-
+    offSwitchHover.on("click", switchIt);
 
 }
 
 function switchIt() {
     console.log("Switch it!");
     playSound("click");
-    //onCheck is false as default
-    if (!onCheck) {
-        onButton.visible = false;
-        offButton.visible = true;
-        onCheck = true;
-    } else if (onCheck) {
-        onButton.visible = true;
-        offButton.visible = false;
-        onCheck = false;
-    }
+
+if (onSwitchHover = true){
+    console.log("checked")
+    onSwitchHover.visible = false;
+    onSwitch.visible = false;
+    offSwitch.visible = true;
+
+} else if (offSwitchHover = true){
+     console.log("checked OFF")
+    offSwitchHover.visible = false;
+    offSwitch.visible = false;
+    onSwitch.visible = true;
+}
+
+    
+//    while (!onCheck) {
+//        onSwitchHover.visible = false;
+//        offSwitch.visible = true;
+//        //turn switch ON by onCheck: true
+//        onCheck = true;
+//        break;
+//    }  if (onCheck) {
+//        onSwitch.visible = true;
+//        offSwitchHover.visible = false;
+//
+//        onCheck = false;
+//    }
 }
 
 function hintPop() {
@@ -290,8 +316,9 @@ var background;
 var hintButton, hintButtonPressed;
 var summaryPop;
 var battery;
-var onButton, onButtonPressed;
-var offButton, offButtonPressed;
+var onSwitch, onSwitchHover
+var offSwitch;
+
 var offBulb, dimBulb, onBulb;
 var senBulb_off, senBulb_dim, senBulb_on;
 /*
@@ -302,7 +329,7 @@ function setupManifest() {
         {
             src: "images/senBulb_on.png",
             id: "senBulb_on"
-    }, 
+    },
 //        {
 //            src: "images/senBulb_dim.png",
 //            id: "senBulb_dim"
@@ -320,11 +347,17 @@ function setupManifest() {
             src: "images/offBulb.png",
             id: "offBulb"
     }, {
-            src: "images/offPressed.png",
-            id: "offButton"
+            src: "images/offSwitchHover.png",
+            id: "offSwitchHover"
     }, {
-            src: "images/onPressed.png",
-            id: "onButton"
+            src: "images/onSwitchHover.png",
+            id: "onSwitchHover"
+    }, {
+            src: "images/offSwitch.png",
+            id: "offSwitch"
+    }, {
+            src: "images/onSwitch.png",
+            id: "onSwitch"
     }, {
             src: "images/battery.png",
             id: "battery"
@@ -337,7 +370,7 @@ function setupManifest() {
     }, {
             src: "images/sumSolution.png",
             id: "summaryPop"
-    },  {
+    }, {
             src: "sounds/click.mp3",
             id: "click"
     }, {
@@ -382,14 +415,14 @@ function handleFileLoad(event) {
         dimBulb = new createjs.Bitmap(event.result);
     } else if (event.item.id == "offBulb") {
         offBulb = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "offButton") {
-        offButton = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "offButtonPressed") {
-        offButtonPressed = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "onButton") {
-        onButton = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "onButtonPressed") {
-        onButtonPressed = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "offSwitchHover") {
+        offSwitchHover = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "onSwitchHover") {
+        onSwitchHover = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "offSwitch") {
+        offSwitch = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "onSwitch") {
+        onSwitch = new createjs.Bitmap(event.result);
     } else if (event.item.id == "battery") {
         battery = new createjs.Bitmap(event.result);
     } else if (event.item.id == "hintButtonPressed") {
