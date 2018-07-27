@@ -129,8 +129,8 @@ function initGraphics() {
 
 
     //hint button x/y
-    hintButton.x = hintButtonPressed.x = 595;
-    hintButton.y = hintButtonPressed.y = 60;
+    hintButton.x = hintButtonPressed.x = 700;
+    hintButton.y = hintButtonPressed.y = 0;
     stage.addChild(hintButton);
 
     //summary Pop up x/y
@@ -185,8 +185,8 @@ function updateSelectPositions() {
     if (isChrome) {
         selectY = 85;
     }
-    solutionSelect.x = gameCanvas.getBoundingClientRect().left + 180;
-    solutionSelect.y = gameCanvas.getBoundingClientRect().top + 100;
+    solutionSelect.x = gameCanvas.getBoundingClientRect().left + 420;
+    solutionSelect.y = gameCanvas.getBoundingClientRect().top + 158;
 }
 
 /*
