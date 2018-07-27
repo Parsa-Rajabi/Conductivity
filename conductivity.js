@@ -25,6 +25,7 @@ solutionOptionValues['Equimolar mixture of HCl and NaOH'];
 solutionOptionValues['Tap H2O'];
 solutionOptionValues['Pure H2O'];
 
+
 var solutionOption, solutionSelectHTML;
 
 // Chrome 1+
@@ -147,7 +148,6 @@ function initGraphics() {
 
 
 function updateSolution() {
-    console.log("Solution was updated!");
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
         bulbType.visible = false;
