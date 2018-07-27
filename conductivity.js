@@ -63,7 +63,7 @@ function update(event) {
         solutionLabel.x = 595;
         solutionLabel.y = 470;
         stage.addChild(solutionLabel);
-        
+
         changeBulb();
         updateSelectPositions();
 
@@ -103,7 +103,7 @@ function initGraphics() {
     //adds the solution selection to the screen
     stage.addChild(solutionSelect);
     /////// selection over //////////
-    
+
     /////// selection start //////////
     //Box Selection
     bulbSelectHTML = document.createElement('select');
@@ -128,14 +128,14 @@ function initGraphics() {
 
     //Bulbs x/y
     offBulb.x = dimBulb.x = onBulb.x = bulbSenDim.x = bulbSenOn.x = 500;
-    offBulb.y = dimBulb.y = onBulb.y =  bulbSenDim.y = bulbSenOn.y = 70;
-    
+    offBulb.y = dimBulb.y = onBulb.y = bulbSenDim.y = bulbSenOn.y = 70;
+
     stage.addChild(offBulb);
     stage.addChild(onBulb);
     stage.addChild(dimBulb);
     stage.addChild(bulbSenDim);
     stage.addChild(bulbSenOn);
-    
+
     onBulb.visible = dimBulb.visible = bulbSenDim.visible = bulbSenOn.visible = false;
 
     //battery x/y
@@ -143,7 +143,7 @@ function initGraphics() {
     battery.y = batteryOn.y = 300;
     stage.addChild(battery, batteryOn);
     batteryOn.visible = false;
-    
+
     //on button x/y
     openSwitch.x = closedSwitch.x = 300;
     openSwitch.y = closedSwitch.y = 337;
@@ -181,67 +181,104 @@ function updateSolution() {
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
         solutionName = 'Tap H2O';
         bulbType.visible = bulbSelect.visible = true;
-        
-        if (bulbSelect.htmlElement.value == "Regular"){
-        console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
-        }else if (bulbSelect.htmlElement.value == "Sensitive"){
-         console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
-        }
-            
-            
-    } else if (solutionSelect.htmlElement.value == "Pure H2O"){
+
+
+
+
+    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
         solutionName = 'Pure H2O';
-        bulbType.visible = bulbSelect.visible =true;
-        
-         if (bulbSelect.htmlElement.value == "Regular"){
-             console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
-        }else if (bulbSelect.htmlElement.value == "Sensitive"){
-         console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
+        bulbType.visible = bulbSelect.visible = true;
+
+        if (bulbSelect.htmlElement.value == "Regular") {
+
+
+        } else if (bulbSelect.htmlElement.value == "Sensitive") {
+
+
         }
 
     }
 }
 
-function changeBulb(){
-    if(checkSwitch){
-    if (solutionSelect.htmlElement.value == "HCl") {
-        //remove the rest
-        offBulb.visible = false;
-        dimBulb.visible = false;
-        //add the bulb for this solution
-        onBulb.visible = true;
+function changeBulb() {
+    if (checkSwitch) {
+        if (solutionSelect.htmlElement.value == "HCl") {
+            //remove the rest
+            offBulb.visible = false;
+            dimBulb.visible = false;
 
-    } else if (solutionSelect.htmlElement.value == "NaOH") {
-        //remove the rest
-        offBulb.visible = false;
-        dimBulb.visible = false;
-        //add the bulb for this solution
-        onBulb.visible = true;
+            //remove sensitive bulbs
+            bulbSenOn.visible = false;
+            bulbSenDim.visible = false;
+            //add the bulb for this solution
+            onBulb.visible = true;
 
-    } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
-        //remove the rest
-        offBulb.visible = false;
-        dimBulb.visible = false;
-        //add the bulb for this solution
-        onBulb.visible = true;
+        } else if (solutionSelect.htmlElement.value == "NaOH") {
+            //remove the rest
+            offBulb.visible = false;
+            dimBulb.visible = false;
 
-    } else if (solutionSelect.htmlElement.value == "Tap H2O") {
-        //remove the rest
-        offBulb.visible = false;
+            //remove sensitive bulbs
+            bulbSenOn.visible = false;
+            bulbSenDim.visible = false;
+            //add the bulb for this solution
+            onBulb.visible = true;
+
+        } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
+            //remove the rest
+            offBulb.visible = false;
+            dimBulb.visible = false;
+
+            //remove sensitive bulbs
+            bulbSenOn.visible = false;
+            bulbSenDim.visible = false;
+            //add the bulb for this solution
+            onBulb.visible = true;
+
+        } else if (solutionSelect.htmlElement.value == "Tap H2O") {
+            //remove the rest
+            offBulb.visible = false;
+            onBulb.visible = false;
+
+            if (bulbSelect.htmlElement.value == "Regular") {
+                bulbSenDim.visible = false;
+                bulbSenOn.visible = false;
+                
+                dimBulb.visible = true;
+
+            } else if (bulbSelect.htmlElement.value == "Sensitive") {
+                bulbSenOn.visible = true;
+                bulbSenDim.visible = false;
+            }
+
+        } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+            //remove the rest
+            dimBulb.visible = false;
+            onBulb.visible = false;
+
+            //remove sensitive bulbs
+            bulbSenOn.visible = false;
+            bulbSenDim.visible = false;
+            
+            if (bulbSelect.htmlElement.value == "Regular") {
+                bulbSenDim.visible = false;
+                bulbSenOn.visible = false;
+                
+                offBulb.visible = true;
+
+
+            } else if (bulbSelect.htmlElement.value == "Sensitive") {
+                bulbSenOn.visible = false;
+                bulbSenDim.visible = true;
+            }
+        }
+    } else if (!checkSwitch) {
+        dimBulb.visible = false;
         onBulb.visible = false;
-        //add the bulb for this solution
-        dimBulb.visible = true;
 
-    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
-        //remove the rest
-        dimBulb.visible = false;
-        onBulb.visible = false;
-        //add the bulb for this solution    
-        offBulb.visible = true;
-    }
-    }else if (!checkSwitch){
-        dimBulb.visible = false;
-        onBulb.visible = false;
+        //remove sensitive bulbs
+        bulbSenOn.visible = false;
+        bulbSenDim.visible = false;
         //add the bulb for this solution    
         offBulb.visible = true;
     }
@@ -261,11 +298,11 @@ function addOptionsToSelect(select, options) {
 function updateSelectPositions() {
     solutionSelect.x = gameCanvas.getBoundingClientRect().left + 420;
     solutionSelect.y = gameCanvas.getBoundingClientRect().top + 160;
-    
+
     bulbSelect.x = gameCanvas.getBoundingClientRect().left + 420;
     bulbSelect.y = gameCanvas.getBoundingClientRect().top + 230;
-    
-    
+
+
 }
 
 /*
@@ -324,8 +361,8 @@ function switchON() {
     batteryOn.visible = true;
     stage.addChild(openSwitch);
     stage.removeChild(closedSwitch);
-    
-    
+
+
 }
 
 //////////////////////// PRELOADJS FUNCTIONS
@@ -334,7 +371,7 @@ function switchON() {
 var muteButton, unmuteButton;
 var background;
 var battery, batteryOn;
-var openSwitch , closedSwitch;
+var openSwitch, closedSwitch;
 var bulbType;
 var offBulb, dimBulb, onBulb;
 var bulbSenDim, bulbSenOn;
@@ -346,10 +383,10 @@ function setupManifest() {
         {
             src: "images/BulbSenOn.png",
             id: "bulbSenOn"
-    },{
+    }, {
             src: "images/BulbSenDim.png",
             id: "bulbSenDim"
-    },{
+    }, {
             src: "images/senBulb_off.png",
             id: "senBulb_off"
     }, {
@@ -367,7 +404,7 @@ function setupManifest() {
     }, {
             src: "images/onSwitchHover.png",
             id: "openSwitch"
-    },{
+    }, {
             src: "images/batteryOn.png",
             id: "batteryOn"
     }, {
