@@ -118,10 +118,10 @@ function initGraphics() {
 
     
     //battery x/y
-    battery.x = 120;
-    battery.y = 300;
-    stage.addChild(battery);
-
+    battery.x = batteryOn.x = 120;
+    battery.y = batteryOn.y = 300;
+    stage.addChild(battery, batteryOn);
+    batteryOn.visible = false;
     //on button x/y
     onSwitch.x = offSwitch.x = 300;
     onSwitch.y = offSwitch.y = 337;
@@ -286,7 +286,7 @@ var muteButton, unmuteButton;
 var background;
 var hintButton, hintButtonPressed;
 var summaryPop;
-var battery;
+var battery, batteryOn;
 var onSwitch;
 var offSwitch;
 
@@ -332,6 +332,9 @@ function setupManifest() {
 //            id: "onSwitch"
 //    }, 
         {
+            src: "images/batteryOn.png",
+            id: "batteryOn"
+    },{
             src: "images/battery.png",
             id: "battery"
     }, {
@@ -398,6 +401,8 @@ function handleFileLoad(event) {
         onSwitch = new createjs.Bitmap(event.result);
     } else if (event.item.id == "battery") {
         battery = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "batteryOn") {
+        batteryOn = new createjs.Bitmap(event.result);
     } else if (event.item.id == "hintButtonPressed") {
         hintButtonPressed = new createjs.Bitmap(event.result);
     } else if (event.item.id == "hintButton") {
