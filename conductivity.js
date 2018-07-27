@@ -17,7 +17,7 @@ var solutionName = 'HCl';
 
 var checkSwitch;
 
-
+var solutionOption, solutionSelectHTML;
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
 solutionOptionValues['NaOH'];
@@ -25,8 +25,11 @@ solutionOptionValues['Equimolar mixture of HCl and NaOH'];
 solutionOptionValues['Tap H2O'];
 solutionOptionValues['Pure H2O'];
 
+var bulbOption, bulbSelectHTML;
+var bulbOptionValues = [];
+bulbOptionValues['Regular'];
+bulbOptionValues['Sensitive'];
 
-var solutionOption, solutionSelectHTML;
 
 // Chrome 1+
 var isChrome = !!window.chrome && !!window.chrome.webstore;
@@ -51,8 +54,6 @@ function init() {
 /*
  * Main update loop.
  */
-
-
 function update(event) {
     if (gameStarted) {
         //Solution lable
@@ -101,24 +102,41 @@ function initGraphics() {
 
     //adds the solution selection to the screen
     stage.addChild(solutionSelect);
+    /////// selection over //////////
+    
+    /////// selection start //////////
+    //Box Selection
+    bulbSelectHTML = document.createElement('select');
+    bulbSelectHTML.id = "bulbSelect";
+    bulbSelectHTML.class = "overlayed";
+    bulbOption = ["Regular", "Sensitive"];
+    addOptionsToSelect(bulbSelectHTML, bulbOption);
+    bulbSelectHTML.style.position = "absolute";
+    bulbSelectHTML.style.top = 0;
+    bulbSelectHTML.style.left = 0;
+    bulbSelectHTML.style.width = "122px";
+    bulbSelectHTML.onchange = updateSolution;
+    document.body.appendChild(bulbSelectHTML);
+    bulbSelect = new createjs.DOMElement(bulbSelectHTML);
+
+    //adds the solution selection to the screen
+    stage.addChild(bulbSelect);
+    bulbSelect.visible = false;
 
     updateSelectPositions();
     /////// selection over //////////
 
     //Bulbs x/y
-    offBulb.x = dimBulb.x = onBulb.x = 500;
-    offBulb.y = dimBulb.y = onBulb.y = 70;
+    offBulb.x = dimBulb.x = onBulb.x = bulbSenDim.x = bulbSenOn.x = 500;
+    offBulb.y = dimBulb.y = onBulb.y =  bulbSenDim.y = bulbSenOn.y = 70;
+    
     stage.addChild(offBulb);
     stage.addChild(onBulb);
     stage.addChild(dimBulb);
-
-    onBulb.visible = dimBulb.visible = false;
-
-    //senBulbs x/y
-    senBulb_off.x = 400;
-    senBulb_off.y = 100;
-    stage.addChild(senBulb_off);
-    senBulb_off.visible = false;
+    stage.addChild(bulbSenDim);
+    stage.addChild(bulbSenOn);
+    
+    onBulb.visible = dimBulb.visible = bulbSenDim.visible = bulbSenOn.visible = false;
 
     //battery x/y
     battery.x = batteryOn.x = 120;
@@ -150,23 +168,36 @@ function initGraphics() {
 function updateSolution() {
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
-        bulbType.visible = false;
+        bulbType.visible = bulbSelect.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "NaOH") {
         solutionName = 'NaOH';
-        bulbType.visible = false;
+        bulbType.visible = bulbSelect.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
         solutionName = 'HCl & NaOH';
-        bulbType.visible = false;
+        bulbType.visible = bulbSelect.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
         solutionName = 'Tap H2O';
-        bulbType.visible = true;
-
+        bulbType.visible = bulbSelect.visible = true;
+        
+        if (bulbSelect.htmlElement.value == "Regular"){
+        console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
+        }else if (bulbSelect.htmlElement.value == "Sensitive"){
+         console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
+        }
+            
+            
     } else if (solutionSelect.htmlElement.value == "Pure H2O"){
         solutionName = 'Pure H2O';
-        bulbType.visible = true;
+        bulbType.visible = bulbSelect.visible =true;
+        
+         if (bulbSelect.htmlElement.value == "Regular"){
+             console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
+        }else if (bulbSelect.htmlElement.value == "Sensitive"){
+         console.log(solutionSelect.htmlElement.value + "and " + bulbSelect.htmlElement.value)
+        }
 
     }
 }
@@ -229,7 +260,12 @@ function addOptionsToSelect(select, options) {
 //updates the positions
 function updateSelectPositions() {
     solutionSelect.x = gameCanvas.getBoundingClientRect().left + 420;
-    solutionSelect.y = gameCanvas.getBoundingClientRect().top + 158;
+    solutionSelect.y = gameCanvas.getBoundingClientRect().top + 160;
+    
+    bulbSelect.x = gameCanvas.getBoundingClientRect().left + 420;
+    bulbSelect.y = gameCanvas.getBoundingClientRect().top + 230;
+    
+    
 }
 
 /*
@@ -301,21 +337,19 @@ var battery, batteryOn;
 var openSwitch , closedSwitch;
 var bulbType;
 var offBulb, dimBulb, onBulb;
-var senBulb_off, senBulb_dim, senBulb_on;
+var bulbSenDim, bulbSenOn;
 /*
  * Add files to be loaded here.
  */
 function setupManifest() {
     manifest = [
         {
-            src: "images/senBulb_on.png",
-            id: "senBulb_on"
-    },
-//        {
-//            src: "images/senBulb_dim.png",
-//            id: "senBulb_dim"
-//    }, 
-        {
+            src: "images/BulbSenOn.png",
+            id: "bulbSenOn"
+    },{
+            src: "images/BulbSenDim.png",
+            id: "bulbSenDim"
+    },{
             src: "images/senBulb_off.png",
             id: "senBulb_off"
     }, {
@@ -378,22 +412,16 @@ function startPreload() {
 function handleFileLoad(event) {
     console.log("A file has loaded of type: " + event.item.type);
     // create bitmaps of images
-    if (event.item.id == "senBulb_on") {
-        senBulb_on = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "senBulb_dim") {
-        senBulb_dim = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "senBulb_off") {
-        senBulb_off = new createjs.Bitmap(event.result);
+    if (event.item.id == "bulbSenDim") {
+        bulbSenDim = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "bulbSenOn") {
+        bulbSenOn = new createjs.Bitmap(event.result);
     } else if (event.item.id == "onBulb") {
         onBulb = new createjs.Bitmap(event.result);
     } else if (event.item.id == "dimBulb") {
         dimBulb = new createjs.Bitmap(event.result);
     } else if (event.item.id == "offBulb") {
         offBulb = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "offSwitchHover") {
-        offSwitchHover = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "onSwitchHover") {
-        onSwitchHover = new createjs.Bitmap(event.result);
     } else if (event.item.id == "closedSwitch") {
         closedSwitch = new createjs.Bitmap(event.result);
     } else if (event.item.id == "openSwitch") {
@@ -404,8 +432,6 @@ function handleFileLoad(event) {
         batteryOn = new createjs.Bitmap(event.result);
     } else if (event.item.id == "bulbType") {
         bulbType = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "summaryPop") {
-        summaryPop = new createjs.Bitmap(event.result);
     } else if (event.item.id == "background") {
         background = new createjs.Bitmap(event.result);
     } else if (event.item.id == "mute") {
