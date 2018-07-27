@@ -62,7 +62,8 @@ function update(event) {
         solutionLabel.y = 470;
         stage.addChild(solutionLabel);
         
-        changeBulb()
+        changeBulb();
+        updateSelectPositions();
 
     }
     stage.update(event);
@@ -118,7 +119,6 @@ function initGraphics() {
     stage.addChild(senBulb_off);
     senBulb_off.visible = false;
 
-
     //battery x/y
     battery.x = batteryOn.x = 120;
     battery.y = batteryOn.y = 300;
@@ -130,17 +130,11 @@ function initGraphics() {
     openSwitch.y = closedSwitch.y = 337;
     stage.addChild(closedSwitch);
 
-
-    //hint button x/y
-    hintButton.x = hintButtonPressed.x = 700;
-    hintButton.y = hintButtonPressed.y = 0;
-    stage.addChild(hintButton);
-
     //summary Pop up x/y
-    summaryPop.x = 50;
-    summaryPop.y = 125;
-    stage.addChild(summaryPop);
-    summaryPop.visible = false;
+    bulbType.x = 0;
+    bulbType.y = 0;
+    stage.addChild(bulbType);
+    bulbType.visible = false;
 
     //add other stuff
     initMuteUnMuteButtons();
@@ -156,18 +150,24 @@ function updateSolution() {
     console.log("Solution was updated!");
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
+        bulbType.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "NaOH") {
         solutionName = 'NaOH';
+        bulbType.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
         solutionName = 'HCl & NaOH';
+        bulbType.visible = false;
 
     } else if (solutionSelect.htmlElement.value == "Tap H2O") {
         solutionName = 'Tap H2O';
+        bulbType.visible = true;
 
-    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+    } else if (solutionSelect.htmlElement.value == "Pure H2O"){
         solutionName = 'Pure H2O';
+        bulbType.visible = true;
+
     }
 }
 
@@ -228,9 +228,6 @@ function addOptionsToSelect(select, options) {
 
 //updates the positions
 function updateSelectPositions() {
-    if (isChrome) {
-        selectY = 85;
-    }
     solutionSelect.x = gameCanvas.getBoundingClientRect().left + 420;
     solutionSelect.y = gameCanvas.getBoundingClientRect().top + 158;
 }
@@ -259,23 +256,6 @@ function initMuteUnMuteButtons() {
  * Add listeners to objects.
  */
 function initListeners() {
-
-    ////////////HINT BUTTON////////////////
-    hintButton.on("mouseover", function () {
-        stage.addChild(hintButtonPressed);
-        stage.removeChild(hintButton);
-        summaryPop.visible = true;
-        //        playSound("click");
-    });
-    hintButtonPressed.on("mouseout", function () {
-        stage.addChild(hintButton);
-        stage.removeChild(hintButtonPressed);
-        summaryPop.visible = false;
-    });
-    //once pressed, the fire function will be called 
-    hintButtonPressed.on("click", hintPop);
-
-
 
     //////////////ON SWITCH///////////////
     openSwitch.on("mouseover", function () {});
@@ -312,22 +292,14 @@ function switchON() {
     
 }
 
-function hintPop() {
-    var popVisible = false;
-    console.log("Hint button was pressed");
-}
-
 //////////////////////// PRELOADJS FUNCTIONS
 
 // bitmap variables
 var muteButton, unmuteButton;
 var background;
-var hintButton, hintButtonPressed;
-var summaryPop;
 var battery, batteryOn;
-var openSwitch;
-var closedSwitch;
-
+var openSwitch , closedSwitch;
+var bulbType;
 var offBulb, dimBulb, onBulb;
 var senBulb_off, senBulb_dim, senBulb_on;
 /*
@@ -361,26 +333,15 @@ function setupManifest() {
     }, {
             src: "images/onSwitchHover.png",
             id: "openSwitch"
-    },
-//        {
-//            src: "images/offSwitch.png",
-//            id: "offSwitch"
-//    }, {
-//            src: "images/onSwitch.png",
-//            id: "onSwitch"
-//    }, 
-        {
+    },{
             src: "images/batteryOn.png",
             id: "batteryOn"
     }, {
             src: "images/battery.png",
             id: "battery"
     }, {
-            src: "images/hintPressed.png",
-            id: "hintButtonPressed"
-    }, {
-            src: "images/hint.png",
-            id: "hintButton"
+            src: "images/BulbType.png",
+            id: "bulbType"
     }, {
             src: "images/sumSolution.png",
             id: "summaryPop"
@@ -441,10 +402,8 @@ function handleFileLoad(event) {
         battery = new createjs.Bitmap(event.result);
     } else if (event.item.id == "batteryOn") {
         batteryOn = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "hintButtonPressed") {
-        hintButtonPressed = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "hintButton") {
-        hintButton = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "bulbType") {
+        bulbType = new createjs.Bitmap(event.result);
     } else if (event.item.id == "summaryPop") {
         summaryPop = new createjs.Bitmap(event.result);
     } else if (event.item.id == "background") {
