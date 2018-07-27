@@ -15,7 +15,7 @@ var gameStarted = false;
 var solutionLabel;
 var solutionName = 'HCl';
 
-var stillHover;
+var checkSwitch;
 
 
 var solutionOptionValues = [];
@@ -61,6 +61,8 @@ function update(event) {
         solutionLabel.x = 595;
         solutionLabel.y = 470;
         stage.addChild(solutionLabel);
+        
+        changeBulb()
 
     }
     stage.update(event);
@@ -116,16 +118,17 @@ function initGraphics() {
     stage.addChild(senBulb_off);
     senBulb_off.visible = false;
 
-    
+
     //battery x/y
     battery.x = batteryOn.x = 120;
     battery.y = batteryOn.y = 300;
     stage.addChild(battery, batteryOn);
     batteryOn.visible = false;
+    
     //on button x/y
-    onSwitch.x = offSwitch.x = 300;
-    onSwitch.y = offSwitch.y = 337;
-    stage.addChild(onSwitch);
+    openSwitch.x = closedSwitch.x = 300;
+    openSwitch.y = closedSwitch.y = 337;
+    stage.addChild(closedSwitch);
 
 
     //hint button x/y
@@ -134,7 +137,7 @@ function initGraphics() {
     stage.addChild(hintButton);
 
     //summary Pop up x/y
-    summaryPop.x = -5;
+    summaryPop.x = 50;
     summaryPop.y = 125;
     stage.addChild(summaryPop);
     summaryPop.visible = false;
@@ -168,7 +171,50 @@ function updateSolution() {
     }
 }
 
+function changeBulb(){
+    if(checkSwitch){
+    if (solutionSelect.htmlElement.value == "HCl") {
+        //remove the rest
+        offBulb.visible = false;
+        dimBulb.visible = false;
+        //add the bulb for this solution
+        onBulb.visible = true;
 
+    } else if (solutionSelect.htmlElement.value == "NaOH") {
+        //remove the rest
+        offBulb.visible = false;
+        dimBulb.visible = false;
+        //add the bulb for this solution
+        onBulb.visible = true;
+
+    } else if (solutionSelect.htmlElement.value == "Equimolar Mixture of HCl and NaOH") {
+        //remove the rest
+        offBulb.visible = false;
+        dimBulb.visible = false;
+        //add the bulb for this solution
+        onBulb.visible = true;
+
+    } else if (solutionSelect.htmlElement.value == "Tap H2O") {
+        //remove the rest
+        offBulb.visible = false;
+        onBulb.visible = false;
+        //add the bulb for this solution
+        dimBulb.visible = true;
+
+    } else if (solutionSelect.htmlElement.value == "Pure H2O") {
+        //remove the rest
+        dimBulb.visible = false;
+        onBulb.visible = false;
+        //add the bulb for this solution    
+        offBulb.visible = true;
+    }
+    }else if (!checkSwitch){
+        dimBulb.visible = false;
+        onBulb.visible = false;
+        //add the bulb for this solution    
+        offBulb.visible = true;
+    }
+}
 //Adds the options to the drop down lists
 
 function addOptionsToSelect(select, options) {
@@ -232,46 +278,38 @@ function initListeners() {
 
 
     //////////////ON SWITCH///////////////
-    onSwitch.on("mouseover", function (){});
-//    {
-//        stage.addChild(onSwitchHover);
-//        stage.removeChild(onSwitch);
-//    });
-    onSwitch.on("mouseout", function (){});
-//        stage.addChild(onSwitch);
-//        stage.removeChild(onSwitchHover);
-//    });
-    //once pressed, the fire function will be called 
-    onSwitch.on("click", switchOFF);
+    openSwitch.on("mouseover", function () {});
+    openSwitch.on("mouseout", function () {});
+    openSwitch.on("click", switchOFF);
 
 
     //////////////OFF SWITCH///////////////
-    offSwitch.on("mouseover", function (){});
-//        stage.addChild(offSwitchHover);
-//        stage.removeChild(offSwitch);
-//    });
-    offSwitch.on("mouseout", function (){});
-//        stage.addChild(offSwitch);
-//        stage.removeChild(offSwitchHover);
-//    });
-    //once pressed, the fire function will be called 
-    offSwitch.on("click", switchON);
+    closedSwitch.on("mouseover", function () {});
+    closedSwitch.on("mouseout", function () {});
+    closedSwitch.on("click", switchON);
 
 }
 
 
-//turns it on
-function switchON(){
+//turns light OFF
+function switchOFF() {
+    checkSwitch = false;
     playSound("click");
-    stage.addChild(onSwitch);
-    stage.removeChild(offSwitch);
+    batteryOn.visible = false;
+    stage.addChild(closedSwitch);
+    stage.removeChild(openSwitch);
+
 }
 
-//turns it off
-function switchOFF(){
+//turns light ON
+function switchON() {
+    checkSwitch = true;
     playSound("click");
-    stage.addChild(offSwitch);
-    stage.removeChild(onSwitch);
+    batteryOn.visible = true;
+    stage.addChild(openSwitch);
+    stage.removeChild(closedSwitch);
+    
+    
 }
 
 function hintPop() {
@@ -287,8 +325,8 @@ var background;
 var hintButton, hintButtonPressed;
 var summaryPop;
 var battery, batteryOn;
-var onSwitch;
-var offSwitch;
+var openSwitch;
+var closedSwitch;
 
 var offBulb, dimBulb, onBulb;
 var senBulb_off, senBulb_dim, senBulb_on;
@@ -319,11 +357,11 @@ function setupManifest() {
             id: "offBulb"
     }, {
             src: "images/offSwitchHover.png",
-            id: "offSwitch"
+            id: "closedSwitch"
     }, {
             src: "images/onSwitchHover.png",
-            id: "onSwitch"
-    }, 
+            id: "openSwitch"
+    },
 //        {
 //            src: "images/offSwitch.png",
 //            id: "offSwitch"
@@ -334,7 +372,7 @@ function setupManifest() {
         {
             src: "images/batteryOn.png",
             id: "batteryOn"
-    },{
+    }, {
             src: "images/battery.png",
             id: "battery"
     }, {
@@ -395,10 +433,10 @@ function handleFileLoad(event) {
         offSwitchHover = new createjs.Bitmap(event.result);
     } else if (event.item.id == "onSwitchHover") {
         onSwitchHover = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "offSwitch") {
-        offSwitch = new createjs.Bitmap(event.result);
-    } else if (event.item.id == "onSwitch") {
-        onSwitch = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "closedSwitch") {
+        closedSwitch = new createjs.Bitmap(event.result);
+    } else if (event.item.id == "openSwitch") {
+        openSwitch = new createjs.Bitmap(event.result);
     } else if (event.item.id == "battery") {
         battery = new createjs.Bitmap(event.result);
     } else if (event.item.id == "batteryOn") {
