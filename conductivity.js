@@ -15,9 +15,8 @@ var gameStarted = false;
 var solutionLabel;
 var solutionName = 'HCl';
 
-var onCheck = 0; 
-//0 is OFF
-//1 is ON
+var stillHover;
+
 
 var solutionOptionValues = [];
 solutionOptionValues['HCl'];
@@ -102,8 +101,6 @@ function initGraphics() {
     updateSelectPositions();
     /////// selection over //////////
 
-
-
     //Bulbs x/y
     offBulb.x = dimBulb.x = onBulb.x = 500;
     offBulb.y = dimBulb.y = onBulb.y = 70;
@@ -119,25 +116,21 @@ function initGraphics() {
     stage.addChild(senBulb_off);
     senBulb_off.visible = false;
 
-    //on button x/y
-
-    onSwitch.x = onSwitchHover.x = offSwitch.x = offSwitchHover.x = 300;
-    onSwitch.y = offSwitch.y = onSwitchHover.y = offSwitchHover.y = 350;
-    stage.addChild(onSwitch, offSwitch, onSwitchHover, offSwitchHover);
-    offSwitch.visible = false;
-    onSwitchHover.visible = false;
-    offSwitchHover.visible = false;
-
-
+    
     //battery x/y
     battery.x = 120;
-    battery.y = 330;
+    battery.y = 300;
     stage.addChild(battery);
+
+    //on button x/y
+    onSwitch.x = offSwitch.x = 300;
+    onSwitch.y = offSwitch.y = 337;
+    stage.addChild(onSwitch);
 
 
     //hint button x/y
-    hintButton.x = hintButtonPressed.x = 500;
-    hintButton.y = hintButtonPressed.y = 55;
+    hintButton.x = hintButtonPressed.x = 595;
+    hintButton.y = hintButtonPressed.y = 60;
     stage.addChild(hintButton);
 
     //summary Pop up x/y
@@ -239,73 +232,51 @@ function initListeners() {
 
 
     //////////////ON SWITCH///////////////
-    onSwitch.on("mouseover", function () {
-        onSwitchHover.visible = true;
-        onSwitch.visible = false;
+    onSwitch.on("mouseover", function (){});
+//    {
 //        stage.addChild(onSwitchHover);
 //        stage.removeChild(onSwitch);
-    });
-    onSwitchHover.on("mouseout", function () {
-        onSwitch.visible = true;
-        onSwitchHover.visible = false;
+//    });
+    onSwitch.on("mouseout", function (){});
 //        stage.addChild(onSwitch);
 //        stage.removeChild(onSwitchHover);
-    });
+//    });
     //once pressed, the fire function will be called 
-    onSwitchHover.on("click", switchIt);
+    onSwitch.on("click", switchOFF);
 
 
     //////////////OFF SWITCH///////////////
-    offSwitch.on("mouseover", function () { 
-        stage.addChild(offSwitchHover);
-        stage.removeChild(offSwitch);
-    });
-    offSwitchHover.on("mouseout", function () {
-        stage.addChild(offSwitch);
-        stage.removeChild(offSwitchHover);
-    });
+    offSwitch.on("mouseover", function (){});
+//        stage.addChild(offSwitchHover);
+//        stage.removeChild(offSwitch);
+//    });
+    offSwitch.on("mouseout", function (){});
+//        stage.addChild(offSwitch);
+//        stage.removeChild(offSwitchHover);
+//    });
     //once pressed, the fire function will be called 
-    offSwitchHover.on("click", switchIt);
+    offSwitch.on("click", switchON);
 
 }
 
-function switchIt() {
-    console.log("Switch it!");
+
+//turns it on
+function switchON(){
     playSound("click");
-
-if (onSwitchHover = true){
-    console.log("checked")
-    onSwitchHover.visible = false;
-    onSwitch.visible = false;
-    offSwitch.visible = true;
-
-} else if (offSwitchHover = true){
-     console.log("checked OFF")
-    offSwitchHover.visible = false;
-    offSwitch.visible = false;
-    onSwitch.visible = true;
+    stage.addChild(onSwitch);
+    stage.removeChild(offSwitch);
 }
 
-    
-//    while (!onCheck) {
-//        onSwitchHover.visible = false;
-//        offSwitch.visible = true;
-//        //turn switch ON by onCheck: true
-//        onCheck = true;
-//        break;
-//    }  if (onCheck) {
-//        onSwitch.visible = true;
-//        offSwitchHover.visible = false;
-//
-//        onCheck = false;
-//    }
+//turns it off
+function switchOFF(){
+    playSound("click");
+    stage.addChild(offSwitch);
+    stage.removeChild(onSwitch);
 }
 
 function hintPop() {
-
     var popVisible = false;
     console.log("Hint button was pressed");
-
 }
 
 //////////////////////// PRELOADJS FUNCTIONS
@@ -316,7 +287,7 @@ var background;
 var hintButton, hintButtonPressed;
 var summaryPop;
 var battery;
-var onSwitch, onSwitchHover
+var onSwitch;
 var offSwitch;
 
 var offBulb, dimBulb, onBulb;
@@ -348,17 +319,19 @@ function setupManifest() {
             id: "offBulb"
     }, {
             src: "images/offSwitchHover.png",
-            id: "offSwitchHover"
-    }, {
-            src: "images/onSwitchHover.png",
-            id: "onSwitchHover"
-    }, {
-            src: "images/offSwitch.png",
             id: "offSwitch"
     }, {
-            src: "images/onSwitch.png",
+            src: "images/onSwitchHover.png",
             id: "onSwitch"
-    }, {
+    }, 
+//        {
+//            src: "images/offSwitch.png",
+//            id: "offSwitch"
+//    }, {
+//            src: "images/onSwitch.png",
+//            id: "onSwitch"
+//    }, 
+        {
             src: "images/battery.png",
             id: "battery"
     }, {
