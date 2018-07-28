@@ -95,7 +95,7 @@ function initGraphics() {
     solutionSelectHTML.style.position = "absolute";
     solutionSelectHTML.style.top = 0;
     solutionSelectHTML.style.left = 0;
-    solutionSelectHTML.style.width = "122px";
+    solutionSelectHTML.style.width = "121px";
     solutionSelectHTML.onchange = updateSolution;
     document.body.appendChild(solutionSelectHTML);
     solutionSelect = new createjs.DOMElement(solutionSelectHTML);
@@ -114,7 +114,7 @@ function initGraphics() {
     bulbSelectHTML.style.position = "absolute";
     bulbSelectHTML.style.top = 0;
     bulbSelectHTML.style.left = 0;
-    bulbSelectHTML.style.width = "122px";
+    bulbSelectHTML.style.width = "121px";
     bulbSelectHTML.onchange = updateSolution;
     document.body.appendChild(bulbSelectHTML);
     bulbSelect = new createjs.DOMElement(bulbSelectHTML);
@@ -127,8 +127,8 @@ function initGraphics() {
     /////// selection over //////////
 
     //Bulbs x/y
-    offBulb.x = dimBulb.x = onBulb.x = bulbSenDim.x = bulbSenOn.x = 500;
-    offBulb.y = dimBulb.y = onBulb.y = bulbSenDim.y = bulbSenOn.y = 70;
+    offBulb.x = dimBulb.x = onBulb.x = bulbSenDim.x = 500; bulbSenOn.x = 500;
+    offBulb.y = dimBulb.y = onBulb.y = bulbSenDim.y = 70; bulbSenOn.y = 70;
 
     stage.addChild(offBulb);
     stage.addChild(onBulb);
@@ -381,15 +381,12 @@ var bulbSenDim, bulbSenOn;
 function setupManifest() {
     manifest = [
         {
-            src: "images/BulbSenOn.png",
+            src: "images/bulbSenOn.png",
             id: "bulbSenOn"
     }, {
-            src: "images/BulbSenDim.png",
+            src: "images/bulbSenDim.png",
             id: "bulbSenDim"
-    }, {
-            src: "images/senBulb_off.png",
-            id: "senBulb_off"
-    }, {
+    },{
             src: "images/onBulb.png",
             id: "onBulb"
     }, {
@@ -413,10 +410,7 @@ function setupManifest() {
     }, {
             src: "images/BulbType.png",
             id: "bulbType"
-    }, {
-            src: "images/sumSolution.png",
-            id: "summaryPop"
-    }, {
+    },{
             src: "sounds/click.mp3",
             id: "click"
     }, {
