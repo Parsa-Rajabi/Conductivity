@@ -58,7 +58,7 @@ function update(event) {
     if (gameStarted) {
         //Solution lable
         stage.removeChild(solutionLabel);
-        solutionLabel = new createjs.Text(solutionName, "22px DejaVu Sans", "#0825ff");
+        solutionLabel = new createjs.Text(solutionName, "22px DejaVu Sans", "#e33e18");
         //    solutionLabel.outline = 1.2;
         solutionLabel.x = 595;
         solutionLabel.y = 470;
@@ -77,15 +77,12 @@ function update(event) {
 function endGame() {
     gameStarted = false;
 }
-
-
-
 /*
  * Place graphics and add them to the stage.
  */
 function initGraphics() {
 
-    /////// selection start //////////
+    /////// solution selection start //////////
     //Box Selection
     solutionSelectHTML = document.createElement('select');
     solutionSelectHTML.id = "solutionSelect";
@@ -102,9 +99,9 @@ function initGraphics() {
 
     //adds the solution selection to the screen
     stage.addChild(solutionSelect);
-    /////// selection over //////////
+    /////// solution selection over //////////
 
-    /////// selection start //////////
+    /////// bulb selection start //////////
     //Box Selection
     bulbSelectHTML = document.createElement('select');
     bulbSelectHTML.id = "bulbSelect";
@@ -124,7 +121,7 @@ function initGraphics() {
     bulbSelect.visible = false;
 
     updateSelectPositions();
-    /////// selection over //////////
+    /////// bulb selection over //////////
 
     //Bulbs x/y
     offBulb.x = dimBulb.x = onBulb.x = bulbSenDim.x = 500; bulbSenOn.x = 500;
@@ -135,7 +132,7 @@ function initGraphics() {
     stage.addChild(dimBulb);
     stage.addChild(bulbSenDim);
     stage.addChild(bulbSenOn);
-
+    
     onBulb.visible = dimBulb.visible = bulbSenDim.visible = bulbSenOn.visible = false;
 
     //battery x/y
@@ -164,7 +161,8 @@ function initGraphics() {
     stage.update();
 }
 
-
+//This function updates the solutionName & label on the beaker
+// and it also brings up the bylbType selection if Tap/Pure H20 are selected
 function updateSolution() {
     if (solutionSelect.htmlElement.value == "HCl") {
         solutionName = 'HCl';
@@ -182,25 +180,15 @@ function updateSolution() {
         solutionName = 'Tap H2O';
         bulbType.visible = bulbSelect.visible = true;
 
-
-
-
     } else if (solutionSelect.htmlElement.value == "Pure H2O") {
         solutionName = 'Pure H2O';
         bulbType.visible = bulbSelect.visible = true;
-
-        if (bulbSelect.htmlElement.value == "Regular") {
-
-
-        } else if (bulbSelect.htmlElement.value == "Sensitive") {
-
-
-        }
-
     }
 }
 
+//this function changes the visible light bulb based on the solution selection 
 function changeBulb() {
+    //checkSwitch is determined by if the switch is on or off
     if (checkSwitch) {
         if (solutionSelect.htmlElement.value == "HCl") {
             //remove the rest
@@ -272,6 +260,8 @@ function changeBulb() {
                 bulbSenDim.visible = true;
             }
         }
+        
+    // if the switch is off, all bulbs are removed except the offBulb 
     } else if (!checkSwitch) {
         dimBulb.visible = false;
         onBulb.visible = false;
@@ -284,7 +274,6 @@ function changeBulb() {
     }
 }
 //Adds the options to the drop down lists
-
 function addOptionsToSelect(select, options) {
     for (var i = 0; i < options.length; i++) {
         var option = document.createElement('option');
@@ -294,15 +283,13 @@ function addOptionsToSelect(select, options) {
     }
 }
 
-//updates the positions
+//updates the positions - make sure to call this function in the updateGame to make sure the positioning of the boxes are checked every FPS
 function updateSelectPositions() {
     solutionSelect.x = gameCanvas.getBoundingClientRect().left + 420;
     solutionSelect.y = gameCanvas.getBoundingClientRect().top + 160;
 
     bulbSelect.x = gameCanvas.getBoundingClientRect().left + 420;
     bulbSelect.y = gameCanvas.getBoundingClientRect().top + 230;
-
-
 }
 
 /*
@@ -351,7 +338,6 @@ function switchOFF() {
     batteryOn.visible = false;
     stage.addChild(closedSwitch);
     stage.removeChild(openSwitch);
-
 }
 
 //turns light ON
@@ -361,8 +347,6 @@ function switchON() {
     batteryOn.visible = true;
     stage.addChild(openSwitch);
     stage.removeChild(closedSwitch);
-
-
 }
 
 //////////////////////// PRELOADJS FUNCTIONS
