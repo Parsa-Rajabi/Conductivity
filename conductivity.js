@@ -2,11 +2,10 @@
  * BCLearningNetwork.com
  * Conductivity - Chemistry 12   
  * @author Parsa Rajabi - ParsaRajabiPR@gmail.com
- * July 2018
+ * July 2018 
  */
 
 //// VARIABLES ////
-
 var mute = false;
 var FPS = 20;
 var STAGE_WIDTH, STAGE_HEIGHT;
@@ -15,6 +14,7 @@ var gameStarted = false;
 var solutionLabel;
 var solutionName = 'HCl';
 
+//checks if the switch is on or off
 var checkSwitch;
 
 var solutionOption, solutionSelectHTML;
